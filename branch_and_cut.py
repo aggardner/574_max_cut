@@ -82,4 +82,4 @@ def create_matrix(m, num_nodes):
 
     return weights, varnames
 
-print read_in_data('ch150.tsp.del')[3]
+print read_in_data('ch150.tsp.del')[1]
