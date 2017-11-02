@@ -10,8 +10,7 @@ def read_in_data(file_name):
 
     Read in the file, and store the data
     """
-    f = open('/Users/a_gardner/Desktop/Alex Folder/Rice University/Senior Year/Fall 2017/CAAM 574 - Combinatorial'
-             ' Optimization/Branch_and_Cut_Solver/%s'
+    f = open('./%s'
              % file_name, 'r')
 
     text_data = f.readlines()
@@ -34,12 +33,17 @@ def read_in_data(file_name):
         if len(line) == 1:
             break
         node1, node2, edge_weight = line
+        print edge_weight
+        
+
         edge_costs[str(node1)][str(node2)] = int(edge_weight)
         edge_costs[str(node2)][str(node1)] = int(edge_weight)
+        print edge_costs[str(node2)][str(node1)], edge_costs[str(node2)][str(node1)]
+        #time.sleep(2)
         edge_list.append(int(edge_weight))
         var_name = 'x%s_%s' % (node1, node2)
         var_list.append(var_name)
-
+    print 'AYYY', edge_costs['0']['33']
     return num_nodes, var_list, edge_list, edge_costs
 
 
@@ -82,4 +86,4 @@ def create_matrix(m, num_nodes):
 
     return weights, varnames
 
-print read_in_data('ch150.tsp.del')[3]
+read_in_data('ch150.tsp.del')
