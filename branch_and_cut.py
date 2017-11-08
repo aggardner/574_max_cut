@@ -21,10 +21,14 @@ def read_in_data(file_name):
 
     var_list = []
     edge_list = []
+    node_list={}
     edge_costs = {}
+
 
     for i in range(0, num_nodes):
         edge_costs[str(i)] = {}
+
+
         for j in range(0, num_nodes):
             edge_costs[str(i)][str(j)] = 0
 
@@ -44,6 +48,11 @@ def read_in_data(file_name):
         var_name = 'x%s_%s' % (node1, node2)
         var_list.append(var_name)
     print 'AYYY', edge_costs['0']['33']
+
+
+
+   
+
     return num_nodes, var_list, edge_list, edge_costs
 
 
@@ -112,8 +121,26 @@ def branch_and_cut(file_name):
         gurobi_vars[var_list[i]] = path_variable
         obj += edge_list[i] * path_variable
 
+    node_list={}
+
+    for i in range(num_nodes):
+        node_name='y%s' % (i)
+        node_varable= m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=node_name)
+        node_list[node_name]=node_varable
+
+
+    for idx, edge in enumerate(edge_list):
+        source, dest= edge.split('_')
+        partition_constraint_name='partition_%s' %idx
+        partition_constraint=edge_list[edge]-node_list[source]-node_list[dest]
+        m.addConstr(partition_constraint<=0, partition_constraint_name)
+
+        fancy_constraint_name='fancy_%s' %idx
+        fancy_constraint=edge_list[edge]+node_list[source]+node_list[dest]-2
+        m.addConstr(fancy_constraint<=0, fancy_constraint_name)
+
     m.update()
-    m.setObjective(obj)
+    m.setObjective(obj, GRB.MAXIMIZE)
 
     for node1 in xrange(num_nodes):
         constraint = LinExpr(0)
@@ -345,5 +372,5 @@ def branch_and_cut(file_name):
 
 
 
-print read_in_data('ch150.tsp.del')[3]
-read_in_data('ch150.tsp.del')
+print read_in_data('Input/ch150.tsp.del')[3]
+read_in_data('Input/ch150.tsp.del')
