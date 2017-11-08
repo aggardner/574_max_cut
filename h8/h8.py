@@ -32,7 +32,7 @@ def maxcut(graph):
 
  	for idx, edge in enumerate(edge_vars):
  		source, dest= edge.split('_')
- 		#print source, dest
+ 		print source, dest
  		partition_constraint_name='partition_%s' %idx
  		partition_constraint=edge_vars[edge]-node_vars[int(source)]-node_vars[int(dest)]
  		m.addConstr(partition_constraint<=0, partition_constraint_name)
