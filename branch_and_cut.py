@@ -66,6 +66,7 @@ def create_matrix(m, num_nodes):
         for j in xrange(num_nodes):
             weights[str(i)][str(j)] = -1
             varnames[str(i)][str(j)] = []
+            
 
     for var in sol_vars:
         value = var.x
