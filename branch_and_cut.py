@@ -47,11 +47,6 @@ def read_in_data(file_name):
         edge_list.append(int(edge_weight))
         var_name = 'x%s_%s' % (node1, node2)
         var_list.append(var_name)
-    print 'AYYY', edge_costs['0']['33']
-
-
-
-   
 
     return num_nodes, var_list, edge_list, edge_costs
 
@@ -97,6 +92,17 @@ def create_matrix(m, num_nodes):
     return weights, varnames
 
 
+def is_int(sol_vars):
+    """
+    :param sol_vars: solution variables (set of gurobi variables)
+    :return: Boolean - False if any of the variables are fractional, True otherwise
+    """
+    for var in sol_vars:
+        if 0.0 < var.x < 1.0:
+            return False, var
+    return True, 'null'
+
+
 def branch_and_cut(file_name):
     """
     :param file_name: Runs the whole function via branch and cut
@@ -130,7 +136,7 @@ def branch_and_cut(file_name):
 
 
     for idx, edge in enumerate(edge_list):
-        source, dest= edge.split('_')
+        source, dest = edge.split('_')
         partition_constraint_name='partition_%s' %idx
         partition_constraint=edge_list[edge]-node_list[source]-node_list[dest]
         m.addConstr(partition_constraint<=0, partition_constraint_name)
@@ -372,6 +378,25 @@ def branch_and_cut(file_name):
 
 
 file_name='ch150.tsp.del'
-#comment
+# comment
+
 read_in_data(file_name)
+
+
+file_list = ['gr21.txt']
+best_sols = []
+run_times = []
+for file in file_list:
+    print file
+    start_time = time.time()
+    best_sol, opt_var = branch_and_cut(file)
+    print best_sol, '\n', opt_var, '\n'
+    graph_time = time.time() - start_time
+    best_sols.append(best_sol)
+    run_times.append(graph_time)
+    print '\n'
+
+print file_list
+print best_sols
+print run_times
 
