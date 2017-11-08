@@ -49,14 +49,12 @@ def read_in_data(file_name):
 
 
         obj+=int(edge_weight)*path_variable
+
     m.update()
     m.setObjective(obj, GRB.MAXIMIZE)
 
     for idx, edge in enumerate(edge_list):
-        source, dest= edge.strip('z').split('_')
-
-        node_list[(source)]
-
+        source, dest= edge.split('_')
         partition_constraint_name='partition_%s' %idx
         partition_constraint=edge_list[edge]-node_list[source]-node_list[dest]
         m.addConstr(partition_constraint<=0, partition_constraint_name)

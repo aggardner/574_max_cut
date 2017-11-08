@@ -10,7 +10,7 @@ def read_in_data(file_name):
 
     Read in the file, and store the data
     """
-    f = open('./%s'
+    f = open('./Inputs/%s'
              % file_name, 'r')
 
     text_data = f.readlines()
@@ -37,12 +37,12 @@ def read_in_data(file_name):
         if len(line) == 1:
             break
         node1, node2, edge_weight = line
-        print edge_weight
+        #print edge_weight
 
 
         edge_costs[str(node1)][str(node2)] = int(edge_weight)
         edge_costs[str(node2)][str(node1)] = int(edge_weight)
-        print edge_costs[str(node2)][str(node1)], edge_costs[str(node2)][str(node1)]
+        #print edge_costs[str(node2)][str(node1)], edge_costs[str(node2)][str(node1)]
         #time.sleep(2)
         edge_list.append(int(edge_weight))
         var_name = 'x%s_%s' % (node1, node2)
@@ -371,6 +371,5 @@ def branch_and_cut(file_name):
 
 
 
-
-print read_in_data('Input/ch150.tsp.del')[3]
-read_in_data('Input/ch150.tsp.del')
+file_name='ch150.tsp.del'
+read_in_data(file_name)
