@@ -135,6 +135,7 @@ def branch_and_cut(file_name):
         node_varable= m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=node_name)
         node_list['%s' % (i)]=node_varable
 
+    m.update()
 
     for idx, edge in enumerate(gurobi_vars):
         source, dest = edge.strip('x').split('_')
