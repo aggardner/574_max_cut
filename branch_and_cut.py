@@ -176,7 +176,7 @@ def branch_and_cut(file_name):
 
     # THIS NEEDS TO BECOME 1/2 APPROXIMATION ALGORITHM
     # cur_best_solution = nearest_neighbor(edge_costs)
-    cur_best_solution=100000
+    cur_best_solution = -10000000000
     while len(queue) > 0:
 
         m_temp = Model()
@@ -223,120 +223,30 @@ def branch_and_cut(file_name):
         else:
             if cur_model.getAttr("ObjVal") < cur_best_solution:
 
-                # print 'Splitting on', frac_var
-                # BRANCH AND BOUND MY BOI
-                constraint = LinExpr(0)
-                constraint += frac_var
+                m1 = cur_model.copy()
 
-                # copy constraints from current LP and save them
-                lhs = {}
-                sense = {}
-                rhs = {}
+                m1_var_map = {}
+                m1_vars = m1.getVars()
+                for var in m1_vars:
+                    m1_var_map[var.varName] = var
 
-                count = 0
+                m1.addConstr(m1_var_map[frac_var.varName], '>=', 1)
 
-                for old_constr in cur_model.getConstrs():
-                    lhs[count] = cur_model.getRow(old_constr)
-                    sense[count] = old_constr.Sense
-                    rhs[count] = old_constr.RHS
-                    count += 1
 
-                # define a new model, and add in variables from gurobi_vars (as below)
-                m1 = Model()
-                obj = 0
+                m2 = cur_model.copy()
 
-                for i in xrange(len(var_list)):
-                    path_variable = m1.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=var_list[i])
-                    gurobi_vars[var_list[i]] = path_variable
-                    obj += edge_list[i] * path_variable
+                m2_var_map = {}
+                m2_vars = m2.getVars()
+                for var in m2_vars:
+                    m2_var_map[var.varName] = var
 
-                m1.update()
+                m2.addConstr(m2_var_map[frac_var.varName], '<=', 0)
 
-                constraint_list = []
 
-                count = 0
 
-                for element in lhs:
-                    list = str(lhs[element]).split()
-                    list = list[1::2]
-                    if list[-1][-1] == '>':
-                        list[-1] = list[-1][:-1]
-                    count += 1
-                    new_list = []
-                    for item in list:
-                        print item
-                        item = gurobi_vars[item]
-                        new_list.append(item)
-                    constraint_list.append(new_list)
 
-                new_lhs = {}
 
-                count = 0
-                for constr in constraint_list:
-                    new_constr = LinExpr(0)
-                    for variable in constr:
-                        new_constr += variable
-                    new_lhs[count] = new_constr
-                    count += 1
 
-                constraint_var = str(constraint).split()[1][:-1]
-                lower_bound = gurobi_vars[constraint_var]
-                new_lhs[count] = lower_bound
-                sense[count] = '<='
-                rhs[count] = 0
-
-                for i in range(len(lhs)+1):
-                    m1.addConstr(new_lhs[i], sense[i], rhs[i])
-
-                m1.setObjective(obj)
-                m1.update()
-
-                m2 = Model()
-                obj = 0
-
-                for i in xrange(len(var_list)):
-                    path_variable = m2.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=var_list[i])
-                    gurobi_vars[var_list[i]] = path_variable
-                    obj += edge_list[i] * path_variable
-
-                m2.update()
-                m2.setObjective(obj)
-
-                constraint_list = []
-
-                count = 0
-                for element in lhs:
-                    list = str(lhs[element]).split()
-                    list = list[1::2]
-                    if list[-1][-1] == '>':
-                        list[-1] = list[-1][:-1]
-                    count += 1
-                    new_list = []
-                    for item in list:
-                        item = gurobi_vars[item]
-                        new_list.append(item)
-                    constraint_list.append(new_list)
-
-                new_lhs = {}
-
-                count = 0
-                for constr in constraint_list:
-                    new_constr = LinExpr(0)
-                    for variable in constr:
-                        new_constr += variable
-                    new_lhs[count] = new_constr
-                    count += 1
-
-                constraint_var = str(constraint).split()[1][:-1]
-                upper_bound = gurobi_vars[constraint_var]
-                new_lhs[count] = upper_bound
-                sense[count] = '>='
-                rhs[count] = 1
-
-                for i in range(len(lhs)+1):
-                    m2.addConstr(new_lhs[i], sense[i], rhs[i])
-
-                m2.update()
 
                 # m1.write('%sx_B0.lp' % file_name)
                 m1.setParam('OutputFlag', False)
@@ -370,9 +280,6 @@ def branch_and_cut(file_name):
                         opt_var = [(v.varName, v.X) for v in m2.getVars() if abs(v.x) > 0.0]
                 else:
                     queue.append(m2)
-
-                # print m1.getAttr("ObjVal")
-                # print m2.getAttr("ObjVal")
 
         print 'best_sol =', cur_best_solution, 'len(queue) =', len(queue)
 
