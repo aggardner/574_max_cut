@@ -75,16 +75,17 @@ def create_matrix(m, num_nodes):
     for var in sol_vars:
         value = var.x
         name = var.varName
-        node_source, node_sink = name[1:].split('_')
+        if 'x' in name:
+            node_source, node_sink = name[1:].split('_')
 
-        weights[node_source][node_sink] = value
-        weights[node_sink][node_source] = value
+            weights[node_source][node_sink] = value
+            weights[node_sink][node_source] = value
 
-        varnames[node_source][node_sink] = [name]
-        varnames[node_sink][node_source] = [name]
+            varnames[node_source][node_sink] = [name]
+            varnames[node_sink][node_source] = [name]
 
-        weights[node_source][node_source] = -1
-        varnames[node_source][node_source] = []
+            weights[node_source][node_source] = -1
+            varnames[node_source][node_source] = []
 
     weights[str(num_nodes - 1)][str(num_nodes - 1)] = -1
     varnames[str(num_nodes - 1)][str(num_nodes - 1)] = []
@@ -132,17 +133,17 @@ def branch_and_cut(file_name):
     for i in range(num_nodes):
         node_name='y%s' % (i)
         node_varable= m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=node_name)
-        node_list[node_name]=node_varable
+        node_list['%s' % (i)]=node_varable
 
 
-    for idx, edge in enumerate(edge_list):
-        source, dest = edge.split('_')
+    for idx, edge in enumerate(gurobi_vars):
+        source, dest = edge.strip('x').split('_')
         partition_constraint_name='partition_%s' %idx
-        partition_constraint=edge_list[edge]-node_list[source]-node_list[dest]
+        partition_constraint=gurobi_vars[edge]-node_list[source]-node_list[dest]
         m.addConstr(partition_constraint<=0, partition_constraint_name)
 
         fancy_constraint_name='fancy_%s' %idx
-        fancy_constraint=edge_list[edge]+node_list[source]+node_list[dest]-2
+        fancy_constraint=gurobi_vars[edge]+node_list[source]+node_list[dest]-2
         m.addConstr(fancy_constraint<=0, fancy_constraint_name)
 
     m.update()
@@ -174,7 +175,7 @@ def branch_and_cut(file_name):
 
     # THIS NEEDS TO BECOME 1/2 APPROXIMATION ALGORITHM
     # cur_best_solution = nearest_neighbor(edge_costs)
-
+    cur_best_solution=100000
     while len(queue) > 0:
 
         m_temp = Model()
@@ -262,6 +263,7 @@ def branch_and_cut(file_name):
                     count += 1
                     new_list = []
                     for item in list:
+                        print item
                         item = gurobi_vars[item]
                         new_list.append(item)
                     constraint_list.append(new_list)
