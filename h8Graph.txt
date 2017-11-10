@@ -1,0 +1,19 @@
+8 18 
+a b 9
+a i 5
+a h 10
+b h 7 
+b c 11
+b f 3
+b e 7
+b i 2
+c h 6
+c f 10
+e f 8
+e i 10
+f g 2
+f h 8
+f i 6
+g h 4
+g i 1
+h i 5
