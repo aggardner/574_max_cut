@@ -307,14 +307,7 @@ def branch_and_cut(file_name):
     return cur_best_solution, opt_var
 
 
-
-file_name='ch150.tsp.del'
-# comment
-
-read_in_data(file_name)
-
-
-file_list = ['gr21.txt']
+file_list = ['att48.txt']
 best_sols = []
 run_times = []
 for file in file_list:
