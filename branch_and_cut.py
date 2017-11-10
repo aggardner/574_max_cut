@@ -100,6 +100,7 @@ def is_int(sol_vars):
     """
     for var in sol_vars:
         if 0.0 < var.x < 1.0:
+            #print "whose fucking up?", var.varName, var.x
             return False, var
     return True, 'null'
 
@@ -122,6 +123,7 @@ def branch_and_cut(file_name):
 
     obj = 0
     gurobi_vars = {}
+    fractional_vars_seen={}
 
     for i in xrange(len(var_list)):
         path_variable = m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=var_list[i])
@@ -150,35 +152,36 @@ def branch_and_cut(file_name):
     m.update()
     m.setObjective(obj, GRB.MAXIMIZE)
 
-    for node1 in xrange(num_nodes):
-        constraint = LinExpr(0)
-        for node2 in xrange(num_nodes):
-            if node1 != node2:
-                if node1 < node2:
-                    edge_variable = 'x%i_%i' % (node1, node2)
-                else:
-                    edge_variable = 'x%i_%i' % (node2, node1)
-                gurobi_var = gurobi_vars[edge_variable]
-                constraint += gurobi_var
-        constraint_name = 'initial_constraint%i' % node1
-        m.addConstr(constraint == 2, constraint_name)
+    # for node1 in xrange(num_nodes):
+    #     constraint = LinExpr(0)
+    #     for node2 in xrange(num_nodes):
+    #         if node1 != node2:
+    #             if node1 < node2:
+    #                 edge_variable = 'x%i_%i' % (node1, node2)
+    #             else:
+    #                 edge_variable = 'x%i_%i' % (node2, node1)
+    #             gurobi_var = gurobi_vars[edge_variable]
+    #             constraint += gurobi_var
+    #     constraint_name = 'initial_constraint%i' % node1
+    #     m.addConstr(constraint == 2, constraint_name)
 
     m.update()
     # m.write("%s_initial.lp" % file_name)
     # print("Model Initialized")
-
+    print('we in here')
     m.setParam('OutputFlag', False)
 
     m.optimize()
 
+    print m.getAttr("ObjVal")
     # begin branch or cut
     queue = [m]
 
     # THIS NEEDS TO BECOME 1/2 APPROXIMATION ALGORITHM
     # cur_best_solution = nearest_neighbor(edge_costs)
-    cur_best_solution=100000
-    while len(queue) > 0:
+    cur_best_solution = -10000000000
 
+    while len(queue) > 0:
         m_temp = Model()
 
         gurobi_vars_1 = {}
@@ -197,7 +200,7 @@ def branch_and_cut(file_name):
 
         cur_model = queue.pop(0)
 
-        weights, varnames = create_matrix(cur_model, num_nodes)
+        
 
         # print 'defined'
         # THIS NEEDS TO BECOME THE NEW CUT ALGORITHM
@@ -207,186 +210,104 @@ def branch_and_cut(file_name):
         # cur_model.write('%s_cut.lp' % file_name)
         cur_model.setParam('OutputFlag', False)
         cur_model.optimize()
-
+        #cur_model.write('Modexp%s.lp'%iteration)
+        #cur_model.write('Modex%s.sol'%iteration)
+        weights, varnames = create_matrix(cur_model, num_nodes)
+        #print cur_model.getAttr("ObjVal"), "SHIIITTTTT"
         # print 'solved'
         # ALl Viable cuts added, resolved. Check if integer
 
         sol_vars = cur_model.getVars()
         integer_solution, frac_var = is_int(sol_vars)
+        #print "val "
+        #print sol_vars[0], cur_model.STATUS
+        print iteration, cur_model.getAttr("ObjVal"), cur_best_solution, len(queue)
+        if frac_var not in fractional_vars_seen:
+            fractional_vars_seen[frac_var]=1
+        else:
+            pass
+           # print "This shouldn't happen?", frac_var
+            #time.sleep(100)
+        if integer_solution:
+            print "SNAPPP" 
 
+        #print "is it integer?", integer_solution, len(queue)
+        #time.sleep(4)
         if integer_solution:
             # print 'integer solution found', cur_model.getAttr("ObjVal")
-            if cur_model.getAttr("ObjVal") < cur_best_solution:
+            if cur_model.getAttr("ObjVal") > cur_best_solution:
                 cur_best_solution = cur_model.getAttr("ObjVal")
                 # cur_model.write('%sx_curr_best_sol.lp' % file_name)
                 opt_var = [(v.varName, v.X) for v in cur_model.getVars() if abs(v.x) > 0.0]
         else:
-            if cur_model.getAttr("ObjVal") < cur_best_solution:
+            if cur_model.getAttr("ObjVal") > cur_best_solution:
 
-                # print 'Splitting on', frac_var
-                # BRANCH AND BOUND MY BOI
-                constraint = LinExpr(0)
-                constraint += frac_var
+                m1 = cur_model.copy()
 
-                # copy constraints from current LP and save them
-                lhs = {}
-                sense = {}
-                rhs = {}
+                m1_var_map = {}
+                m1_vars = m1.getVars()
+                for var in m1_vars:
+                    m1_var_map[var.varName] = var
+                #print "Fractional variable", frac_var.varName
+                m1.addConstr(m1_var_map[frac_var.varName], '>=', 1)
 
-                count = 0
 
-                for old_constr in cur_model.getConstrs():
-                    lhs[count] = cur_model.getRow(old_constr)
-                    sense[count] = old_constr.Sense
-                    rhs[count] = old_constr.RHS
-                    count += 1
+                m2 = cur_model.copy()
 
-                # define a new model, and add in variables from gurobi_vars (as below)
-                m1 = Model()
-                obj = 0
+                m2_var_map = {}
+                m2_vars = m2.getVars()
+                for var in m2_vars:
+                    m2_var_map[var.varName] = var
 
-                for i in xrange(len(var_list)):
-                    path_variable = m1.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=var_list[i])
-                    gurobi_vars[var_list[i]] = path_variable
-                    obj += edge_list[i] * path_variable
+                m2.addConstr(m2_var_map[frac_var.varName], '<=', 0)
 
-                m1.update()
+                queue.append(m1)
+                queue.append(m2)
+                #print "IDentifying constriants"
+                #m1.write("Model1_%i.lp"% iteration)
+                #m2.write("Model2_%i.lp" % iteration)
+        #         #time.sleep(5)
+        #         # m1.write('%sx_B0.lp' % file_name)
+        #         m1.setParam('OutputFlag', False)
+        #         m1.optimize()
 
-                constraint_list = []
+        #         sol_vars_1 = m1.getVars()
+        #         integer_solution, _ = is_int(sol_vars_1)
 
-                count = 0
+        #         if integer_solution:
+        #             # print 'integer solution found', m1.getAttr("ObjVal")
+        #             if m1.getAttr("ObjVal") > cur_best_solution:
+        #                 cur_best_solution = m1.getAttr("ObjVal")
+        #                 # m1.write('%sx_curr_best_sol.lp' % file_name)
+        #                 opt_var = [(v.varName, v.X) for v in m1.getVars() if v.x > 0.0]
+        #         else:
+        #             if m1.getAttr("ObjVal") > cur_best_solution:
+        #                 queue.append(m1)
 
-                for element in lhs:
-                    list = str(lhs[element]).split()
-                    list = list[1::2]
-                    if list[-1][-1] == '>':
-                        list[-1] = list[-1][:-1]
-                    count += 1
-                    new_list = []
-                    for item in list:
-                        print item
-                        item = gurobi_vars[item]
-                        new_list.append(item)
-                    constraint_list.append(new_list)
+        #         # m2.write('%sx_B1.lp' % file_name)
 
-                new_lhs = {}
+        #         m2.setParam('OutputFlag', False)
+        #         m2.optimize()
 
-                count = 0
-                for constr in constraint_list:
-                    new_constr = LinExpr(0)
-                    for variable in constr:
-                        new_constr += variable
-                    new_lhs[count] = new_constr
-                    count += 1
+        #         sol_vars_2 = m2.getVars()
+        #         integer_solution, _ = is_int(sol_vars_2)
 
-                constraint_var = str(constraint).split()[1][:-1]
-                lower_bound = gurobi_vars[constraint_var]
-                new_lhs[count] = lower_bound
-                sense[count] = '<='
-                rhs[count] = 0
+        #         if integer_solution:
+        #             # print 'integer solution found', m2.getAttr("ObjVal")
+        #             if m2.getAttr("ObjVal") > cur_best_solution:
+        #                 cur_best_solution = m2.getAttr("ObjVal")
+        #                 # m2.write('%sx_curr_best_sol.lp' % file_name)
+        #                 opt_var = [(v.varName, v.X) for v in m2.getVars() if abs(v.x) > 0.0]
+        #         else:
+        #             if m2.getAttr("ObjVal") > cur_best_solution:
+        #                 queue.append(m2)
 
-                for i in range(len(lhs)+1):
-                    m1.addConstr(new_lhs[i], sense[i], rhs[i])
-
-                m1.setObjective(obj)
-                m1.update()
-
-                m2 = Model()
-                obj = 0
-
-                for i in xrange(len(var_list)):
-                    path_variable = m2.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=var_list[i])
-                    gurobi_vars[var_list[i]] = path_variable
-                    obj += edge_list[i] * path_variable
-
-                m2.update()
-                m2.setObjective(obj)
-
-                constraint_list = []
-
-                count = 0
-                for element in lhs:
-                    list = str(lhs[element]).split()
-                    list = list[1::2]
-                    if list[-1][-1] == '>':
-                        list[-1] = list[-1][:-1]
-                    count += 1
-                    new_list = []
-                    for item in list:
-                        item = gurobi_vars[item]
-                        new_list.append(item)
-                    constraint_list.append(new_list)
-
-                new_lhs = {}
-
-                count = 0
-                for constr in constraint_list:
-                    new_constr = LinExpr(0)
-                    for variable in constr:
-                        new_constr += variable
-                    new_lhs[count] = new_constr
-                    count += 1
-
-                constraint_var = str(constraint).split()[1][:-1]
-                upper_bound = gurobi_vars[constraint_var]
-                new_lhs[count] = upper_bound
-                sense[count] = '>='
-                rhs[count] = 1
-
-                for i in range(len(lhs)+1):
-                    m2.addConstr(new_lhs[i], sense[i], rhs[i])
-
-                m2.update()
-
-                # m1.write('%sx_B0.lp' % file_name)
-                m1.setParam('OutputFlag', False)
-                m1.optimize()
-
-                sol_vars_1 = m1.getVars()
-                integer_solution, _ = is_int(sol_vars_1)
-
-                if integer_solution:
-                    # print 'integer solution found', m1.getAttr("ObjVal")
-                    if m1.getAttr("ObjVal") < cur_best_solution:
-                        cur_best_solution = m1.getAttr("ObjVal")
-                        # m1.write('%sx_curr_best_sol.lp' % file_name)
-                        opt_var = [(v.varName, v.X) for v in m1.getVars() if v.x > 0.0]
-                else:
-                    queue.append(m1)
-
-                # m2.write('%sx_B1.lp' % file_name)
-
-                m2.setParam('OutputFlag', False)
-                m2.optimize()
-
-                sol_vars_2 = m2.getVars()
-                integer_solution, _ = is_int(sol_vars_2)
-
-                if integer_solution:
-                    # print 'integer solution found', m2.getAttr("ObjVal")
-                    if m2.getAttr("ObjVal") < cur_best_solution:
-                        cur_best_solution = m2.getAttr("ObjVal")
-                        # m2.write('%sx_curr_best_sol.lp' % file_name)
-                        opt_var = [(v.varName, v.X) for v in m2.getVars() if abs(v.x) > 0.0]
-                else:
-                    queue.append(m2)
-
-                # print m1.getAttr("ObjVal")
-                # print m2.getAttr("ObjVal")
-
-        print 'best_sol =', cur_best_solution, 'len(queue) =', len(queue)
+        # #print 'best integer =', cur_best_solution, 'len(queue) =', len(queue)
 
     return cur_best_solution, opt_var
 
 
-
-file_name='ch150.tsp.del'
-# comment
-
-read_in_data(file_name)
-
-
-file_list = ['gr21.txt']
+file_list = ['att48.txt']
 best_sols = []
 run_times = []
 for file in file_list:
