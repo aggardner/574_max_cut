@@ -1,6 +1,6 @@
 from gurobipy import *
-import copy
 import time
+import random
 
 
 def read_in_data(file_name):
@@ -21,13 +21,10 @@ def read_in_data(file_name):
 
     var_list = []
     edge_list = []
-    node_list={}
     edge_costs = {}
-
 
     for i in range(0, num_nodes):
         edge_costs[str(i)] = {}
-
 
         for j in range(0, num_nodes):
             edge_costs[str(i)][str(j)] = 0
@@ -37,60 +34,15 @@ def read_in_data(file_name):
         if len(line) == 1:
             break
         node1, node2, edge_weight = line
-        #print edge_weight
-
 
         edge_costs[str(node1)][str(node2)] = int(edge_weight)
         edge_costs[str(node2)][str(node1)] = int(edge_weight)
-        #print edge_costs[str(node2)][str(node1)], edge_costs[str(node2)][str(node1)]
-        #time.sleep(2)
+
         edge_list.append(int(edge_weight))
         var_name = 'x%s_%s' % (node1, node2)
         var_list.append(var_name)
 
     return num_nodes, var_list, edge_list, edge_costs
-
-
-def create_matrix(m, num_nodes):
-    """
-    :param m: Gurobi Model
-    :param num_nodes: Number of Nodes
-    :return: Weights, variable names
-
-    Creates Dictionaries of dictionaries corresponding to the current connection and the weights
-    """
-
-    sol_vars = m.getVars()
-    varnames = {}
-    weights = {}
-
-    for i in xrange(num_nodes):
-        varnames[str(i)] = {}
-        weights[str(i)] = {}
-        for j in xrange(num_nodes):
-            weights[str(i)][str(j)] = -1
-            varnames[str(i)][str(j)] = []
-            
-
-    for var in sol_vars:
-        value = var.x
-        name = var.varName
-        if 'x' in name:
-            node_source, node_sink = name[1:].split('_')
-
-            weights[node_source][node_sink] = value
-            weights[node_sink][node_source] = value
-
-            varnames[node_source][node_sink] = [name]
-            varnames[node_sink][node_source] = [name]
-
-            weights[node_source][node_source] = -1
-            varnames[node_source][node_source] = []
-
-    weights[str(num_nodes - 1)][str(num_nodes - 1)] = -1
-    varnames[str(num_nodes - 1)][str(num_nodes - 1)] = []
-
-    return weights, varnames
 
 
 def is_int(sol_vars):
@@ -100,9 +52,38 @@ def is_int(sol_vars):
     """
     for var in sol_vars:
         if 0.0 < var.x < 1.0:
-            #print "whose fucking up?", var.varName, var.x
+            # print "who's fucking up?", var.varName, var.x
             return False, var
     return True, 'null'
+
+
+def half_approx_alg(edge_costs):
+    """
+    :param edge_costs: dictionary of dictionaries {node0:{node1:edge_weight, ..., nodeN:edge_weight},..., nodeN{...}}
+    :return: some randomly generated lower bound on the max cut
+    """
+
+    # initialize lower bound on max cut and our subset
+    max_cut_lb = 0
+    a = []
+
+    # find subset of nodes with randomly picking some node at 50% likelihood
+    for node in edge_costs:
+        rand_num = random.random()
+        if rand_num <= .5:
+            a.append(node)
+
+    # for each node
+    for node in edge_costs:
+        # if the node is in our subset
+        if node in a:
+            # for each of the nodes connected to it
+            for incident_edge in edge_costs[node]:
+                # if a neighboring node is in the other set, add the edge to the cut
+                if incident_edge not in a:
+                    max_cut_lb += edge_costs[node][incident_edge]
+
+    return max_cut_lb
 
 
 def branch_and_cut(file_name):
@@ -116,61 +97,43 @@ def branch_and_cut(file_name):
     opt_var = []
 
     num_nodes, var_list, edge_list, edge_costs = read_in_data(file_name)
-    # print "Loading Data for %s" % file_name
 
     # builds initial model
     m = Model()
 
     obj = 0
     gurobi_vars = {}
-    fractional_vars_seen={}
+    fractional_vars_seen = {}
 
     for i in xrange(len(var_list)):
         path_variable = m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=var_list[i])
         gurobi_vars[var_list[i]] = path_variable
         obj += edge_list[i] * path_variable
 
-    node_list={}
+    node_list = {}
 
     for i in range(num_nodes):
-        node_name='y%s' % (i)
-        node_varable= m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=node_name)
-        node_list['%s' % (i)]=node_varable
+        node_name = 'y%s' % i
+        node_variable = m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=node_name)
+        node_list['%s' % i] = node_variable
 
     m.update()
 
     for idx, edge in enumerate(gurobi_vars):
         source, dest = edge.strip('x').split('_')
-        partition_constraint_name='partition_%s' %idx
-        partition_constraint=gurobi_vars[edge]-node_list[source]-node_list[dest]
-        m.addConstr(partition_constraint<=0, partition_constraint_name)
+        partition_constraint_name = 'partition_%s' % idx
+        partition_constraint = gurobi_vars[edge] - node_list[source] - node_list[dest]
+        m.addConstr(partition_constraint <= 0, partition_constraint_name)
 
-        fancy_constraint_name='fancy_%s' %idx
-        fancy_constraint=gurobi_vars[edge]+node_list[source]+node_list[dest]-2
-        m.addConstr(fancy_constraint<=0, fancy_constraint_name)
+        fancy_constraint_name = 'fancy_%s' % idx
+        fancy_constraint = gurobi_vars[edge] + node_list[source] + node_list[dest] - 2
+        m.addConstr(fancy_constraint <= 0, fancy_constraint_name)
 
     m.update()
     m.setObjective(obj, GRB.MAXIMIZE)
 
-    # for node1 in xrange(num_nodes):
-    #     constraint = LinExpr(0)
-    #     for node2 in xrange(num_nodes):
-    #         if node1 != node2:
-    #             if node1 < node2:
-    #                 edge_variable = 'x%i_%i' % (node1, node2)
-    #             else:
-    #                 edge_variable = 'x%i_%i' % (node2, node1)
-    #             gurobi_var = gurobi_vars[edge_variable]
-    #             constraint += gurobi_var
-    #     constraint_name = 'initial_constraint%i' % node1
-    #     m.addConstr(constraint == 2, constraint_name)
-
     m.update()
-    # m.write("%s_initial.lp" % file_name)
-    # print("Model Initialized")
-    print('we in here')
     m.setParam('OutputFlag', False)
-
     m.optimize()
 
     print m.getAttr("ObjVal")
@@ -178,8 +141,8 @@ def branch_and_cut(file_name):
     queue = [m]
 
     # THIS NEEDS TO BECOME 1/2 APPROXIMATION ALGORITHM
-    # cur_best_solution = nearest_neighbor(edge_costs)
-    cur_best_solution = -10000000000
+    cur_best_solution = half_approx_alg(edge_costs)
+    # cur_best_solution = -10000000000
 
     while len(queue) > 0:
         m_temp = Model()
@@ -195,126 +158,66 @@ def branch_and_cut(file_name):
         m_temp.update()
         m_temp.setObjective(obj2)
 
-        a = '1'
         iteration += 1
 
         cur_model = queue.pop(0)
 
-        
-
-        # print 'defined'
         # THIS NEEDS TO BECOME THE NEW CUT ALGORITHM
         # cur_model = min_cut(cur_model, weights, varnames, num_nodes, gurobi_vars_1, m_temp, a)
 
-        # print 'cutted'
-        # cur_model.write('%s_cut.lp' % file_name)
         cur_model.setParam('OutputFlag', False)
         cur_model.optimize()
-        #cur_model.write('Modexp%s.lp'%iteration)
-        #cur_model.write('Modex%s.sol'%iteration)
-        weights, varnames = create_matrix(cur_model, num_nodes)
-        #print cur_model.getAttr("ObjVal"), "SHIIITTTTT"
-        # print 'solved'
-        # ALl Viable cuts added, resolved. Check if integer
+
+        # All viable cuts added, resolved. Check if integer
 
         sol_vars = cur_model.getVars()
         integer_solution, frac_var = is_int(sol_vars)
-        #print "val "
-        #print sol_vars[0], cur_model.STATUS
+
         print iteration, cur_model.getAttr("ObjVal"), cur_best_solution, len(queue)
         if frac_var not in fractional_vars_seen:
-            fractional_vars_seen[frac_var]=1
+            fractional_vars_seen[frac_var] = 1
         else:
             pass
-           # print "This shouldn't happen?", frac_var
-            #time.sleep(100)
-        if integer_solution:
-            print "SNAPPP" 
 
-        #print "is it integer?", integer_solution, len(queue)
-        #time.sleep(4)
         if integer_solution:
             # print 'integer solution found', cur_model.getAttr("ObjVal")
             if cur_model.getAttr("ObjVal") > cur_best_solution:
                 cur_best_solution = cur_model.getAttr("ObjVal")
-                # cur_model.write('%sx_curr_best_sol.lp' % file_name)
                 opt_var = [(v.varName, v.X) for v in cur_model.getVars() if abs(v.x) > 0.0]
+
+        elif cur_model.getAttr("ObjVal") <= cur_best_solution:
+            continue
         else:
-            if cur_model.getAttr("ObjVal") > cur_best_solution:
+            # branch and bound
+            m1 = cur_model.copy()
+            m1_var_map = {}
+            m1_vars = m1.getVars()
+            for var in m1_vars:
+                m1_var_map[var.varName] = var
+            m1.addConstr(m1_var_map[frac_var.varName], '>=', 1)
 
-                m1 = cur_model.copy()
+            m2 = cur_model.copy()
+            m2_var_map = {}
+            m2_vars = m2.getVars()
+            for var in m2_vars:
+                m2_var_map[var.varName] = var
 
-                m1_var_map = {}
-                m1_vars = m1.getVars()
-                for var in m1_vars:
-                    m1_var_map[var.varName] = var
-                #print "Fractional variable", frac_var.varName
-                m1.addConstr(m1_var_map[frac_var.varName], '>=', 1)
+            m2.addConstr(m2_var_map[frac_var.varName], '<=', 0)
 
-
-                m2 = cur_model.copy()
-
-                m2_var_map = {}
-                m2_vars = m2.getVars()
-                for var in m2_vars:
-                    m2_var_map[var.varName] = var
-
-                m2.addConstr(m2_var_map[frac_var.varName], '<=', 0)
-
-                queue.append(m1)
-                queue.append(m2)
-                #print "IDentifying constriants"
-                #m1.write("Model1_%i.lp"% iteration)
-                #m2.write("Model2_%i.lp" % iteration)
-        #         #time.sleep(5)
-        #         # m1.write('%sx_B0.lp' % file_name)
-        #         m1.setParam('OutputFlag', False)
-        #         m1.optimize()
-
-        #         sol_vars_1 = m1.getVars()
-        #         integer_solution, _ = is_int(sol_vars_1)
-
-        #         if integer_solution:
-        #             # print 'integer solution found', m1.getAttr("ObjVal")
-        #             if m1.getAttr("ObjVal") > cur_best_solution:
-        #                 cur_best_solution = m1.getAttr("ObjVal")
-        #                 # m1.write('%sx_curr_best_sol.lp' % file_name)
-        #                 opt_var = [(v.varName, v.X) for v in m1.getVars() if v.x > 0.0]
-        #         else:
-        #             if m1.getAttr("ObjVal") > cur_best_solution:
-        #                 queue.append(m1)
-
-        #         # m2.write('%sx_B1.lp' % file_name)
-
-        #         m2.setParam('OutputFlag', False)
-        #         m2.optimize()
-
-        #         sol_vars_2 = m2.getVars()
-        #         integer_solution, _ = is_int(sol_vars_2)
-
-        #         if integer_solution:
-        #             # print 'integer solution found', m2.getAttr("ObjVal")
-        #             if m2.getAttr("ObjVal") > cur_best_solution:
-        #                 cur_best_solution = m2.getAttr("ObjVal")
-        #                 # m2.write('%sx_curr_best_sol.lp' % file_name)
-        #                 opt_var = [(v.varName, v.X) for v in m2.getVars() if abs(v.x) > 0.0]
-        #         else:
-        #             if m2.getAttr("ObjVal") > cur_best_solution:
-        #                 queue.append(m2)
-
-        # #print 'best integer =', cur_best_solution, 'len(queue) =', len(queue)
+            queue.append(m1)
+            queue.append(m2)
 
     return cur_best_solution, opt_var
 
 
-file_list = ['att48.txt']
+file_list = ['gr21.txt']
 best_sols = []
 run_times = []
-for file in file_list:
-    print file
+for filename in file_list:
+    print filename
     start_time = time.time()
-    best_sol, opt_var = branch_and_cut(file)
-    print best_sol, '\n', opt_var, '\n'
+    best_sol, opt_vars = branch_and_cut(filename)
+    print best_sol, '\n', opt_vars, '\n'
     graph_time = time.time() - start_time
     best_sols.append(best_sol)
     run_times.append(graph_time)
@@ -323,4 +226,3 @@ for file in file_list:
 print file_list
 print best_sols
 print run_times
-
