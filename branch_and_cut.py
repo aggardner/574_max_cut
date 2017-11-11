@@ -92,26 +92,29 @@ def branch_and_cut(file_name):
     :return: The optimal path value and the path itself as a list of tuples with the edge and the coefficient of the
              edge (1.0) for all edges
     """
-
+    # initialize
     iteration = 0
     opt_var = []
 
+    # read in data
     num_nodes, var_list, edge_list, edge_costs = read_in_data(file_name)
 
     # builds initial model
     m = Model()
 
+    # build things for initial model
     obj = 0
     gurobi_vars = {}
     fractional_vars_seen = {}
 
+    # builds objective function
     for i in xrange(len(var_list)):
         path_variable = m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=var_list[i])
         gurobi_vars[var_list[i]] = path_variable
         obj += edge_list[i] * path_variable
 
+    # builds node variables
     node_list = {}
-
     for i in range(num_nodes):
         node_name = 'y%s' % i
         node_variable = m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=node_name)
@@ -119,6 +122,7 @@ def branch_and_cut(file_name):
 
     m.update()
 
+    # builds initial constraints
     for idx, edge in enumerate(gurobi_vars):
         source, dest = edge.strip('x').split('_')
         partition_constraint_name = 'partition_%s' % idx
@@ -129,66 +133,59 @@ def branch_and_cut(file_name):
         fancy_constraint = gurobi_vars[edge] + node_list[source] + node_list[dest] - 2
         m.addConstr(fancy_constraint <= 0, fancy_constraint_name)
 
+    # sets objective function
     m.update()
     m.setObjective(obj, GRB.MAXIMIZE)
 
+    # mutes print statements and solves
     m.update()
     m.setParam('OutputFlag', False)
     m.optimize()
 
-    print m.getAttr("ObjVal")
-    # begin branch or cut
+    # adds m to queue
     queue = [m]
 
-    # THIS NEEDS TO BECOME 1/2 APPROXIMATION ALGORITHM
+    # 1/2 Approximation Algorithm to find initial lower bound
     cur_best_solution = half_approx_alg(edge_costs)
-    # cur_best_solution = -10000000000
 
+    # Begin branch and cut - while there are things in the queue
     while len(queue) > 0:
-        m_temp = Model()
-
-        gurobi_vars_1 = {}
-        obj2 = 0
-
-        for i in xrange(len(var_list)):
-            path_var_1 = m_temp.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=var_list[i])
-            gurobi_vars_1[var_list[i]] = path_var_1
-            obj2 += edge_list[i] * path_var_1
-
-        m_temp.update()
-        m_temp.setObjective(obj2)
 
         iteration += 1
 
+        # remove item from queue
         cur_model = queue.pop(0)
 
         # THIS NEEDS TO BECOME THE NEW CUT ALGORITHM
+        # add viable cuts
         # cur_model = min_cut(cur_model, weights, varnames, num_nodes, gurobi_vars_1, m_temp, a)
 
+        # mute output and solve
         cur_model.setParam('OutputFlag', False)
         cur_model.optimize()
 
-        # All viable cuts added, resolved. Check if integer
-
+        # take solution variables and check if they're fractional
         sol_vars = cur_model.getVars()
         integer_solution, frac_var = is_int(sol_vars)
 
         print iteration, cur_model.getAttr("ObjVal"), cur_best_solution, len(queue)
+        # keep track of fractional variables seen
         if frac_var not in fractional_vars_seen:
             fractional_vars_seen[frac_var] = 1
-        else:
-            pass
 
+        # check to see if we found an integer solution
         if integer_solution:
-            # print 'integer solution found', cur_model.getAttr("ObjVal")
+            # if we did and it's better, replace the current optimal solution
             if cur_model.getAttr("ObjVal") > cur_best_solution:
                 cur_best_solution = cur_model.getAttr("ObjVal")
                 opt_var = [(v.varName, v.X) for v in cur_model.getVars() if abs(v.x) > 0.0]
 
+        # if it's worse, regardless of whether or not it's integer, do nothing
         elif cur_model.getAttr("ObjVal") <= cur_best_solution:
             continue
+        # otherwise, branch and bound
         else:
-            # branch and bound
+            # make a copy then add a bounding constraint var >= 1
             m1 = cur_model.copy()
             m1_var_map = {}
             m1_vars = m1.getVars()
@@ -196,14 +193,15 @@ def branch_and_cut(file_name):
                 m1_var_map[var.varName] = var
             m1.addConstr(m1_var_map[frac_var.varName], '>=', 1)
 
+            # make a copy then add a bounding constraint var <= 0
             m2 = cur_model.copy()
             m2_var_map = {}
             m2_vars = m2.getVars()
             for var in m2_vars:
                 m2_var_map[var.varName] = var
-
             m2.addConstr(m2_var_map[frac_var.varName], '<=', 0)
 
+            # add the models back to the queue and continue
             queue.append(m1)
             queue.append(m2)
 
