@@ -1,6 +1,7 @@
 from gurobipy import *
 import time
 import random
+import copy
 
 
 def read_in_data(file_name):
@@ -85,35 +86,40 @@ def half_approx_alg(edge_costs):
 
     return max_cut_lb
 
-def get_SOP(edge_costs, node):
-    aux_graph=generateAuxG(edge_costs)
+
+def get_shortest_odd_path(edge_costs, node):
+    # aux_graph = generateAuxG(edge_costs)
+    pass
 
 
-def generateAuxG(edge_costs):
-    nodes=edge_costs.keys()
+def generate_aux_graph(edge_costs):
+    """
+    :param edge_costs:
+    :return pseudo_graph:
+    """
+    original_nodes = edge_costs.keys()
 
-    old_to_temp = edge_costs.copy()
-    for node in nodes:
-        new_node='%sP' % node 
-        print new_node
-        old_to_temp[new_node]=edge_costs[node]
-    print old_to_temp['0P']
+    temp = edge_costs.copy()
+    for node in original_nodes:
+        new_node = '%sP' % node
+        temp[new_node] = edge_costs[node]
+    print temp['0P']
 
-    print 'finished black to white'
+    p_nodes = temp.copy()
 
-    temp_to_old = edge_costs.copy()
-    for node in nodes:
-        old_destinations=temp_to_old[node].keys()
-        #print node, old_destinations
-        for old_destination in old_destinations:
-            new_destination ='%sP' % old_destination
-            temp = temp_to_old[node][old_destination]
-            temp_to_old[node].pop(old_destination)
-            temp_to_old[node][new_destination] = temp
+    for node in temp:
+        if node in original_nodes:
+            p_nodes.pop(node)
 
-    print temp_to_old['0']
-    print old_to_temp['0P']
-    time.sleep(100)
+    o_nodes = copy.deepcopy(edge_costs)
+    for node in edge_costs:
+        for element in edge_costs[node]:
+            o_nodes[node][element + 'P'] = o_nodes[node].pop(element)
+
+    pseudo_graph = dict(p_nodes.items() + o_nodes.items())
+
+    return pseudo_graph
+
 
 def branch_and_cut(file_name):
     """
@@ -127,10 +133,10 @@ def branch_and_cut(file_name):
 
     # read in data
     num_nodes, var_list, edge_list, edge_costs = read_in_data(file_name)
-    print edge_costs
-    print 'testing odd cut stuff'
-    get_SOP(edge_costs, '1')
-    time.sleep(1000)
+
+    # testing site
+    generate_aux_graph(edge_costs)
+
     # builds initial model
     m = Model()
 
@@ -240,14 +246,7 @@ def branch_and_cut(file_name):
     return cur_best_solution, opt_var
 
 
-<<<<<<< HEAD
-
-
-
 file_list = ['gr21.txt']
-=======
-file_list = ['h8.txt']
->>>>>>> f39434c71c2f1197120989974ca24b6a709ae731
 best_sols = []
 run_times = []
 for filename in file_list:
