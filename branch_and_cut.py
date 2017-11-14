@@ -85,6 +85,35 @@ def half_approx_alg(edge_costs):
 
     return max_cut_lb
 
+def get_SOP(edge_costs, node):
+    aux_graph=generateAuxG(edge_costs)
+
+
+def generateAuxG(edge_costs):
+    nodes=edge_costs.keys()
+
+    old_to_temp = edge_costs.copy()
+    for node in nodes:
+        new_node='%sP' % node 
+        print new_node
+        old_to_temp[new_node]=edge_costs[node]
+    print old_to_temp['0P']
+
+    print 'finished black to white'
+
+    temp_to_old = edge_costs.copy()
+    for node in nodes:
+        old_destinations=temp_to_old[node].keys()
+        #print node, old_destinations
+        for old_destination in old_destinations:
+            new_destination ='%sP' % old_destination
+            temp = temp_to_old[node][old_destination]
+            temp_to_old[node].pop(old_destination)
+            temp_to_old[node][new_destination] = temp
+
+    print temp_to_old['0']
+    print old_to_temp['0P']
+    time.sleep(100)
 
 def branch_and_cut(file_name):
     """
@@ -98,7 +127,10 @@ def branch_and_cut(file_name):
 
     # read in data
     num_nodes, var_list, edge_list, edge_costs = read_in_data(file_name)
-
+    print edge_costs
+    print 'testing odd cut stuff'
+    get_SOP(edge_costs, '1')
+    time.sleep(1000)
     # builds initial model
     m = Model()
 
