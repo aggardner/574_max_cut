@@ -577,6 +577,7 @@ Gurobi 7.0.1 (mac64, Python) logging started Thu Nov  9 18:56:54 2017
 Gurobi 7.0.1 (mac64, Python) logging started Thu Nov  9 18:57:06 2017
 
 
+<<<<<<< HEAD
 Gurobi 6.5.2 (mac64) logging started Fri Nov 10 11:16:20 2017
 
 
@@ -641,4 +642,142 @@ Gurobi 6.5.2 (mac64) logging started Sun Nov 12 13:34:56 2017
 
 
 Gurobi 6.5.2 (mac64) logging started Tue Nov 14 04:42:08 2017
+=======
+Gurobi 7.0.1 (mac64, Python) logging started Sat Nov 11 16:44:57 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Sat Nov 11 16:47:36 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Sat Nov 11 16:47:56 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 12:45:54 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 12:45:58 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 12:47:56 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:11:33 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:26:58 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:39:50 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:40:33 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:40:45 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:41:45 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:42:29 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:43:11 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:45:28 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:48:35 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:51:03 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:51:08 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:51:10 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:51:25 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:52:59 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:53:56 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 13:54:22 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:02:15 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:21:54 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:22:03 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:22:10 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:22:16 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:22:28 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:22:44 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:22:51 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:23:07 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:23:57 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:24:04 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:24:44 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:24:47 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:25:35 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:26:42 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:28:25 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:28:32 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:29:32 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:29:40 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:30:11 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:30:21 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:30:54 2017
+
+
+Gurobi 7.0.1 (mac64, Python) logging started Tue Nov 14 14:30:57 2017
+>>>>>>> f39434c71c2f1197120989974ca24b6a709ae731
 
