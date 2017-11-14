@@ -208,6 +208,9 @@ def branch_and_cut(file_name):
     return cur_best_solution, opt_var
 
 
+
+
+
 file_list = ['gr21.txt']
 best_sols = []
 run_times = []

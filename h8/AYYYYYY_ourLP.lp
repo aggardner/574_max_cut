@@ -1,4 +1,3 @@
-\ LP format - for model browsing. Use MPS format to capture full model detail.
 Maximize
   9 z0_1 + 10 z0_6 + 5 z0_7 + 11 z1_2 + 7 z1_4 + 3 z1_5 + 7 z1_6 + 2 z1_7
    + 10 z2_5 + 6 z2_6 + 2 z3_5 + 4 z3_6 + z3_7 + 8 z4_5 + 10 z4_7 + 8 z5_6

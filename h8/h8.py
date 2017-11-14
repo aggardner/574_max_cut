@@ -1,5 +1,6 @@
 from gurobipy import *
 
+
 def maxcut(graph):
 
 	edge_map={0:"a", 1:"b", 2:"c", 3:"g", 4:"e", 5:"f", 6: "h", 7:"i"}
@@ -21,13 +22,13 @@ def maxcut(graph):
 			if i!=j and graph[i][j]>0 and "%s_%s" % (i,j) not in edges_seen and "%s_%s" % (j,i) not in edges_seen:
 				edges_seen["%s_%s" % (j,i)]=1
 				edges_seen["%s_%s" % (i,j)]=1
-
  				count+=1
  				var_name='z%s_%s' % (i, j)
  				path_variable=m.addVar(lb=0.0, ub=1.0, vtype=GRB.BINARY, name=var_name)
  				edge_vars["%s_%s" % (i,j)]=path_variable
  				weight=graph[i][j]
  				obj+=weight*path_variable
+        m.update()
  	m.setObjective(obj, GRB.MAXIMIZE)
 
  	for idx, edge in enumerate(edge_vars):
@@ -43,7 +44,7 @@ def maxcut(graph):
  	m.update()
  	m.write('AYYYYYY_ourLP.lp')
  	#print count
- 	m.optimize()
+	m.optimize()
  	m.write("AYYYY_oursol.sol")
  	variables=m.getVars()
  	print "----Solution Output----"
