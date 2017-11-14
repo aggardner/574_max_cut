@@ -32,7 +32,6 @@ def maxcut(graph):
 
  	for idx, edge in enumerate(edge_vars):
  		source, dest= edge.split('_')
- 		print source, dest
  		partition_constraint_name='partition_%s' %idx
  		partition_constraint=edge_vars[edge]-node_vars[int(source)]-node_vars[int(dest)]
  		m.addConstr(partition_constraint<=0, partition_constraint_name)
@@ -41,10 +40,8 @@ def maxcut(graph):
  		fancy_constraint=edge_vars[edge]+node_vars[int(source)]+node_vars[int(dest)]-2
  		m.addConstr(fancy_constraint<=0, fancy_constraint_name)
  	m.update()
- 	m.write('AYYYYYY_ourLP.lp')
  	#print count
  	m.optimize()
- 	m.write("AYYYY_oursol.sol")
  	variables=m.getVars()
  	print "----Solution Output----"
  	for var in variables:
@@ -52,8 +49,8 @@ def maxcut(graph):
  			edge_name=var.varName.strip('z')
  			source, dest= edge_name.split('_')
  			source_letter, dest_letter=edge_map[int(source)], edge_map[int(dest)]
- 			print source_letter, dest_letter
-
+ 			print source_letter, dest_letter, graph[int(source)][int(dest)]
+ 	cons=m.getConstrs()
 graph= [\
 #a b c g e f h i
 [0,9,0,0,0,0,10,5],
