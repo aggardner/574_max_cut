@@ -1,7 +1,7 @@
 import sys, time
 def dj(matrix, node_to_use):
 	num_nodes=len(matrix)
-	node_to_retreive=node_to_use+'P'
+	node_to_retreive=str(node_to_use)+'P'
 	distance_to_nodes=[10000000]*num_nodes #Make super large
 	path_to_nodes={}
 	for node in matrix.keys():
@@ -38,14 +38,15 @@ def dj(matrix, node_to_use):
 
 	#print 'Final distances', distance_to_nodes
 
-	#print 'Final paths', path_to_nodes
+	print 'Final paths', path_to_nodes
 	#Uncomment me, need the +so that we are officially a "cycle"
 	#return path_to_nodes[node_to_retreive]+[node_to_retreive]
 if __name__ == "__main__":
-	f=open('Inputs/gr21.txt')
+	f=open('geeksDJ.txt')
 	first_line=f.readline().strip(' ').split(' ')
 	num_nodes, num_edges=int(first_line[0]), int(first_line[1])
 	adjacent_matrix={}
+	#http://www.geeksforgeeks.org/greedy-algorithms-set-6-dijkstras-shortest-path-algorithm/
 	for i in xrange(num_nodes):
 		adjacent_matrix[i]={}
 	#adjacent_matrix=[ [0]*num_nodes for i in xrange(num_nodes)]
