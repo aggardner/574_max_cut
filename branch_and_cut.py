@@ -214,8 +214,8 @@ def generate_odd_cut_constr(psuedograph, node, edge_vars):
     :return constraint:
     """
 
-    # find the shortest odd path from some node to itself by doing dijkstra's algorithm on the pseudograph
-    path = dijkstra(psuedograph, node)
+    paths = dijkstra(psuedograph, node)
+    path = paths[node + 'P']
 
     # strip the P from the node name
     actual_path = []
@@ -250,46 +250,61 @@ def generate_odd_cut_constr(psuedograph, node, edge_vars):
     return constraint, cycle_sum < 1
 
 
-def dijkstra(pseudograph, node_to_use):
+def dijkstra(graph, start_node):
     """
-    :param pseudograph:
-    :param node_to_use:
-    :return:
+    :param graph: An undirected graph
+    :param start_node: A node in the graph from which the search starts
+    :return: Two dictionaries in a tuple: The first is the every node's distance from the start node
+            The second is the number of shortest paths from the node in question to the starting node
+
+    Performs dijkstra's algorithm on the graph starting at the node start_node to determine how far
+    each node is from the starting node, and the number of shortest paths the node has to the starting
+    node.
     """
-    num_nodes = len(pseudograph)
-    node_to_retrieve = node_to_use + 'P'
-    distance_to_nodes = {}
-    for node in pseudograph.keys():
-        distance_to_nodes[node]= 100000000000000  # Make super large
-    path_to_nodes = {}
-    for node in pseudograph.keys():
-        path_to_nodes[node] = []
-    nodes_used = set()
-    distance_to_nodes[node_to_use] = 0
+    distance = {}
+    # distance maps the node's distance from the start node
 
-    nodes_used.add(node_to_use)
+    paths = {}
+    # paths initial
 
-    while len(nodes_used) < num_nodes:
-        min_so_far = 100000000000000  # make super large
-        for cur_node in nodes_used:
-            for node, weight in pseudograph[cur_node].iteritems():
-                if weight >= 0 and node not in nodes_used:
-                    cur_dist = weight + distance_to_nodes[cur_node]
-                    # print cur_node,cur_dist, min_so_far, node, weight
-                    if weight >= 0 and cur_dist < min_so_far:
-                        # print "got a min at node", node
+    nodes = graph.keys()
 
-                        min_so_far = cur_dist
-                        min_node = node
-                        path_to_nodes[min_node] = path_to_nodes[cur_node] + [cur_node]
+    for node in graph:
+        # initially assume that each node is infinitely far away from the starting node
+        distance[node] = float('inf')
+        # initialize initial paths to be blank - haven't been visited
+        paths[node] = []
 
-        distance_to_nodes[min_node] = min_so_far
+    # initializes starting node to have a path that begins at itself
+    paths[start_node] = [start_node]
 
-        nodes_used.add(min_node)
+    distance[start_node] = 0
+    # distance from the start_node is initialized at zero
 
-    odd_path = path_to_nodes[node_to_retrieve] + [node_to_retrieve]
+    # Initialize the search queue
+    queue = nodes
 
-    return odd_path
+    # Explore all connected nodes
+    while queue:
+        # while the queue is not empty
+
+        # takes the item w/ min distance from start still in the queue
+
+        node = min(distance.viewkeys() & queue, key=distance.get)
+
+        queue.pop(queue.index(node))
+
+        for neighbor in graph[node]:
+            # for each neighbor of the node
+
+            alt = distance[node] + graph[node][neighbor]
+
+            if alt < distance[neighbor]:
+                distance[neighbor] = alt
+                paths[neighbor] = [x for x in paths[node]]
+                paths[neighbor].append(neighbor)
+
+    return paths
 
 
 def find_odd_cycle(path):
@@ -374,10 +389,6 @@ def branch_and_cut(file_name):
     m.update()
     m.setParam('OutputFlag', False)
     m.optimize()
-
-    for var in m.getVars():
-        value = var.X
-        print var, value
 
     # adds m to queue
     queue = [m]
