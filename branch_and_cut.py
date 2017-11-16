@@ -96,19 +96,37 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
     :return:
     """
 
-    # Make sure we are sending the right things to the function! - BUILD THIS!!!
-    gurobi_edge_vals = get_current_weights(model, graph)
+    add_cut_indicator = True
 
-    for var in model.getVars():
-        name = var.varName
-        edge_gurobi_map[name] = var
+    while add_cut_indicator:
 
-    pseudograph = build_pseudograph(gurobi_edge_vals)
-    for node in graph:
-        constraint = generate_odd_cut_constr(pseudograph, node, edge_gurobi_map)
-        # check if constraint in model
-        model.addConstr(constraint[0], constraint[1], constraint[2])
-        model.update()
+        # Make sure we are sending the right things to the function! - BUILD THIS!!!
+        gurobi_edge_vals = get_current_weights(model, graph)
+
+        for var in model.getVars():
+            name = var.varName
+            edge_gurobi_map[name] = var
+
+        lhs = {}
+        count = 0
+        for constr in model.getConstrs():
+            lhs[count] = model.getRow(constr)
+            count += 1
+
+        added_list = []
+
+        pseudograph = build_pseudograph(gurobi_edge_vals)
+        for node in graph:
+            constraint, violated_flag = generate_odd_cut_constr(pseudograph, node, edge_gurobi_map)
+            if violated_flag:
+                if str(constraint[0]) not in str(lhs.values()):
+                    model.addConstr(constraint[0], constraint[1], constraint[2])
+                    model.optimize()
+                    add_flag = True
+                    added_list.append(add_flag)
+
+        if sum(added_list) == 0:
+            add_cut_indicator = False
 
     return model
 
@@ -134,13 +152,12 @@ def get_current_weights(m, graph):
             name = var.varName
             node_source, node_sink = name[1:].split('_')
 
-            graph[node_source][node_sink] = value
-            graph[node_sink][node_source] = value
+            graph[node_source][node_sink] = 1 - value
+            graph[node_sink][node_source] = 1 - value
 
     return graph
 
 
-# Done
 def build_pseudograph(gurobi_edge_vals):
     """
     :param gurobi_edge_vals:
@@ -175,7 +192,6 @@ def build_pseudograph(gurobi_edge_vals):
     return pseudograph
 
 
-# Done
 def generate_odd_cut_constr(psuedograph, node, edge_vars):
     """
     :param psuedograph:
@@ -202,21 +218,24 @@ def generate_odd_cut_constr(psuedograph, node, edge_vars):
     rhs = len(cycle) - 2
     sense = '<='
 
+    cycle_sum = 0
+
     # loop to build constraint out of the model variables
     lhs = LinExpr(0)
-    for i in range(0, len(actual_path)-1):
-        source = str(min(int(actual_path[i]), int(actual_path[i+1])))
-        sink = str(max(int(actual_path[i]), int(actual_path[i+1])))
+    for i in range(0, len(cycle)-1):
+        source = str(min(int(cycle[i]), int(cycle[i+1])))
+        sink = str(max(int(cycle[i]), int(cycle[i+1])))
         var = 'x' + source + '_' + sink
         lhs += edge_vars[var]
+
+        cycle_sum += 1 - edge_vars[var].x
 
     # builds constraint
     constraint = [lhs, sense, rhs]
 
-    return constraint
+    return constraint, cycle_sum < 1
 
 
-# Done
 def dijkstra(pseudograph, node_to_use):
     """
     :param pseudograph:
@@ -240,10 +259,10 @@ def dijkstra(pseudograph, node_to_use):
         min_so_far = 100000000000000  # make super large
         for cur_node in nodes_used:
             for node, weight in pseudograph[cur_node].iteritems():
-                if weight > 0 and node not in nodes_used:
+                if weight >= 0 and node not in nodes_used:
                     cur_dist = weight + distance_to_nodes[cur_node]
                     # print cur_node,cur_dist, min_so_far, node, weight
-                    if weight > 0 and cur_dist < min_so_far:
+                    if weight >= 0 and cur_dist < min_so_far:
                         # print "got a min at node", node
 
                         min_so_far = cur_dist
@@ -259,7 +278,6 @@ def dijkstra(pseudograph, node_to_use):
     return odd_path
 
 
-# Done
 def find_odd_cycle(path):
     """
     :param path:
@@ -343,6 +361,10 @@ def branch_and_cut(file_name):
     m.setParam('OutputFlag', False)
     m.optimize()
 
+    for var in m.getVars():
+        value = var.X
+        print var, value
+
     # adds m to queue
     queue = [m]
 
@@ -359,6 +381,8 @@ def branch_and_cut(file_name):
 
         # add viable cuts
         cur_model = add_odd_cuts(cur_model, edge_costs, edge_vars)
+
+        cur_model.update()
 
         # mute output and solve
         cur_model.setParam('OutputFlag', False)
@@ -415,7 +439,8 @@ def branch_and_cut(file_name):
                     # m1.write('%sx_curr_best_sol.lp' % file_name)
                     opt_var = [(v.varName, v.X) for v in m1.getVars() if v.x > 0.0]
             else:
-                queue.append(m1)
+                if m1.getAttr("ObjVal") > cur_best_solution:
+                    queue.append(m1)
 
             m2.setParam('OutputFlag', False)
             m2.optimize()
@@ -429,12 +454,13 @@ def branch_and_cut(file_name):
                     # m2.write('%sx_curr_best_sol.lp' % file_name)
                     opt_var = [(v.varName, v.X) for v in m2.getVars() if abs(v.x) > 0.0]
             else:
-                queue.append(m2)
+                if m2.getAttr("ObjVal") > cur_best_solution:
+                    queue.append(m2)
 
     return cur_best_solution, opt_var
 
 
-file_list = ['ulysses22.txt']
+file_list = ['gr21.txt']
 best_sols = []
 run_times = []
 for filename in file_list:
