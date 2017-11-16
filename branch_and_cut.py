@@ -118,8 +118,21 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
         pseudograph = build_pseudograph(gurobi_edge_vals)
         for node in graph:
             constraint, violated_flag = generate_odd_cut_constr(pseudograph, node, edge_gurobi_map)
+
+            constr_set = set()
+            for i in range(0, constraint[0].size()):
+                constr_set.add(str(constraint[0].getVar(i)))
+
             if violated_flag:
-                if str(constraint[0]) not in str(lhs.values()):
+
+                model_constrs = []
+                for element in lhs.values():
+                    model_con = set()
+                    for i in range(0, element.size()):
+                        model_con.add(str(element.getVar(i)))
+                    model_constrs.append(model_con)
+
+                if constr_set not in model_constrs:
                     model.addConstr(constraint[0], constraint[1], constraint[2])
                     model.optimize()
                     add_flag = True
