@@ -121,7 +121,8 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
 
             constr_set = set()
             for i in range(0, constraint[0].size()):
-                constr_set.add(str(constraint[0].getVar(i)))
+                constr_set.add(str(constraint[0].getVar(i).varName))
+
 
             if violated_flag:
 
@@ -129,7 +130,7 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
                 for element in lhs.values():
                     model_con = set()
                     for i in range(0, element.size()):
-                        model_con.add(str(element.getVar(i)))
+                        model_con.add(str(element.getVar(i).varName))
                     model_constrs.append(model_con)
 
                 if constr_set not in model_constrs:
@@ -137,6 +138,8 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
                     model.optimize()
                     add_flag = True
                     added_list.append(add_flag)
+
+
 
         if sum(added_list) == 0:
             add_cut_indicator = False
