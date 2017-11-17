@@ -27,8 +27,6 @@ def read_in_data(file_name):
     for i in range(0, num_nodes):
         edge_costs[str(i)] = {}
 
-        for j in range(0, num_nodes):
-            edge_costs[str(i)][str(j)] = 0
 
     for i in range(1, num_edges + 1):
         line = text_data[i].split()
@@ -94,6 +92,7 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
     :param edge_gurobi_map:
     :return:
     """
+
 
     add_cut_indicator = True
 
@@ -301,8 +300,7 @@ def dijkstra(graph, start_node):
 
             if alt < distance[neighbor]:
                 distance[neighbor] = alt
-                paths[neighbor] = [x for x in paths[node]]
-                paths[neighbor].append(neighbor)
+                paths[neighbor] = paths[node] + [neighbor]
 
     return paths
 
@@ -357,10 +355,11 @@ def branch_and_cut(file_name):
 
     # builds objective function
     for i in xrange(len(var_list)):
+
         path_variable = m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=var_list[i])
+        #print var_list[i]
         edge_vars[var_list[i]] = path_variable
         obj += edge_list[i] * path_variable
-
     # builds node variables
     node_vars = {}
     for i in range(num_nodes):
@@ -485,12 +484,14 @@ def branch_and_cut(file_name):
     return cur_best_solution, opt_var
 
 
-file_list = ['gr21.txt']
+file_list = os.listdir('Inputs')
+file_list.pop(0)
 best_sols = []
 run_times = []
 for filename in file_list:
     print filename
     start_time = time.time()
+
     best_sol, opt_vars = branch_and_cut(filename)
     print best_sol, '\n', opt_vars, '\n'
     graph_time = time.time() - start_time
