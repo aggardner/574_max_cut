@@ -42,12 +42,9 @@ def maxcut(graph):
  		m.addConstr(fancy_constraint<=0, fancy_constraint_name)
  	m.update()
  	#print count
-<<<<<<< HEAD
 	m.optimize()
  	m.write("AYYYY_oursol.sol")
-=======
  	m.optimize()
->>>>>>> f39434c71c2f1197120989974ca24b6a709ae731
  	variables=m.getVars()
  	print "----Solution Output----"
  	for var in variables:

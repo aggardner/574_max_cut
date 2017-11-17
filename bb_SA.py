@@ -93,15 +93,9 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
     :return:
     """
 
-
     add_cut_indicator = True
 
-    gurobi_to_edge_map = {}
-    #print "BRO"
-    count = 0
-    prev_count=0
     model_constrs = []
-    start=time.time()
     while add_cut_indicator:
 
         # Make sure we are sending the right things to the function! - BUILD THIS!!!
@@ -110,7 +104,6 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
         for var in model.getVars():
             name = var.varName
             edge_gurobi_map[name] = var
-
 
         added_list = []
         
@@ -128,24 +121,13 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
                     model_con.add(str(constraint[0].getVar(i).varName.strip(' ')))
                 model_constrs.append(model_con)
 
-                count += 1
                 model.optimize()
                 add_flag = True
                 added_list.append(add_flag)
 
-            if time.time()-start>50 and count-prev_count>0:
-                print "break out of this shit", count
-
-                print "shits taking too long dude", time.time()-start, time.time()-start>15
-                add_cut_indicator = False
-                break
-        prev_count=count
         if sum(added_list) == 0:
-
             add_cut_indicator = False
 
-
-    #print 'bruh'
     return model
 
 

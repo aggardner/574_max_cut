@@ -50,7 +50,6 @@ def is_int(sol_vars):
     """
     for var in sol_vars:
         if 0.000000000001 < var.x < .99999999999:
-            # print "who's fucking up?", var.varName, var.x
             return False, var
     return True, 'null'
 
@@ -94,6 +93,7 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
 
     add_cut_indicator = True
 
+    model_constrs = []
     while add_cut_indicator:
 
         # Make sure we are sending the right things to the function! - BUILD THIS!!!
@@ -103,37 +103,25 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
             name = var.varName
             edge_gurobi_map[name] = var
 
-        lhs = {}
-        count = 0
-        for constr in model.getConstrs():
-            lhs[count] = model.getRow(constr)
-            count += 1
-
         added_list = []
 
         pseudograph = build_pseudograph(gurobi_edge_vals)
         for node in graph:
             constraint, violated_flag = generate_odd_cut_constr(pseudograph, node, edge_gurobi_map)
-
             constr_set = set()
             for i in range(0, constraint[0].size()):
-                constr_set.add(str(constraint[0].getVar(i).varName))
+                constr_set.add(str(constraint[0].getVar(i).varName.strip(' ')))
 
-            if violated_flag:
+            if violated_flag and constr_set not in model_constrs:
+                model.addConstr(constraint[0], constraint[1], constraint[2], name='OddCut')
+                model_con = set()
+                for i in range(0, constraint[0].size()):
+                    model_con.add(str(constraint[0].getVar(i).varName.strip(' ')))
+                model_constrs.append(model_con)
 
-                model_constrs = []
-                for element in lhs.values():
-                    model_con = set()
-                    for i in range(0, element.size()):
-                        model_con.add(str(element.getVar(i).varName))
-                    model_constrs.append(model_con)
-
-                if constr_set not in model_constrs:
-                    model.addConstr(constraint[0], constraint[1], constraint[2])
-                    model.optimize()
-                    add_flag = True
-                    added_list.append(add_flag)
-
+                model.optimize()
+                add_flag = True
+                added_list.append(add_flag)
 
                 sol_vars = model.getVars()
                 integer_solution, _ = is_int(sol_vars)
@@ -487,7 +475,7 @@ def branch_and_cut(file_name):
 # file_list = os.listdir('Inputs')
 # file_list.pop(0)
 
-file_list = ['hk48.txt', 'att48.txt']
+file_list = ['att48.txt']
 
 best_sols = []
 run_times = []
