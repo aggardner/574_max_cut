@@ -27,7 +27,6 @@ def read_in_data(file_name):
     for i in range(0, num_nodes):
         edge_costs[str(i)] = {}
 
-
     for i in range(1, num_edges + 1):
         line = text_data[i].split()
         if len(line) == 1:
@@ -50,7 +49,7 @@ def is_int(sol_vars):
     :return: Boolean - False if any of the variables are fractional, True otherwise
     """
     for var in sol_vars:
-        if 0.0 < var.x < 1.0:
+        if 0.000000000001 < var.x < .99999999999:
             # print "who's fucking up?", var.varName, var.x
             return False, var
     return True, 'null'
@@ -93,10 +92,7 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
     :return:
     """
 
-
     add_cut_indicator = True
-
-    gurobi_to_edge_map = {}
 
     while add_cut_indicator:
 
@@ -138,6 +134,12 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
                     add_flag = True
                     added_list.append(add_flag)
 
+
+                sol_vars = model.getVars()
+                integer_solution, _ = is_int(sol_vars)
+                if integer_solution:
+                    add_cut_indicator = False
+
         if sum(added_list) == 0:
             add_cut_indicator = False
 
@@ -146,11 +148,9 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
 
 def get_current_weights(m, graph):
     """
-    :param m: Gurobi Model
-    :param num_nodes: Number of Nodes
-    :return: Weights, variable names
-
-    Creates Dictionaries of dictionaries corresponding to the current connection and the weights
+    :param m:
+    :param graph:
+    :return:
     """
 
     sol_vars = m.getVars()
@@ -160,7 +160,7 @@ def get_current_weights(m, graph):
             graph[node1][node2] = 0
 
     for var in sol_vars:
-        if 'x' in var.varName: # edge variable
+        if 'x' in var.varName:  # edge variable
             value = var.x
             name = var.varName
             node_source, node_sink = name[1:].split('_')
@@ -209,8 +209,8 @@ def generate_odd_cut_constr(psuedograph, node, edge_vars):
     """
     :param psuedograph:
     :param node:
-    :param model:
-    :return constraint:
+    :param edge_vars:
+    :return:
     """
 
     paths = dijkstra(psuedograph, node)
@@ -357,7 +357,7 @@ def branch_and_cut(file_name):
     for i in xrange(len(var_list)):
 
         path_variable = m.addVar(lb=0.0, ub=1.0, vtype=GRB.CONTINUOUS, name=var_list[i])
-        #print var_list[i]
+        # print var_list[i]
         edge_vars[var_list[i]] = path_variable
         obj += edge_list[i] * path_variable
     # builds node variables
@@ -484,8 +484,11 @@ def branch_and_cut(file_name):
     return cur_best_solution, opt_var
 
 
-file_list = os.listdir('Inputs')
-file_list.pop(0)
+# file_list = os.listdir('Inputs')
+# file_list.pop(0)
+
+file_list = ['hk48.txt', 'att48.txt']
+
 best_sols = []
 run_times = []
 for filename in file_list:
