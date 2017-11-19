@@ -94,6 +94,15 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
     add_cut_indicator = True
 
     model_constrs = []
+    constraints_so_far=model.getConstrs()[::-1]
+    for constraint in constraints_so_far:
+        model_con = set()
+        if 'OddCut' in constraint.constrName:
+            for i in range(0, constraint[0].size()):
+                model_con.add(str(constraint[0].getVar(i).varName.strip(' ')))
+            model_constrs.append(model_con)
+        else:
+            break
     while add_cut_indicator:
 
         # Make sure we are sending the right things to the function! - BUILD THIS!!!
@@ -475,7 +484,8 @@ def branch_and_cut(file_name):
 # file_list = os.listdir('Inputs')
 # file_list.pop(0)
 
-file_list = ['att48.txt']
+file_list = ['a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del', 'ch150.tsp.del', 'd198.tsp.del']
+
 
 best_sols = []
 run_times = []
