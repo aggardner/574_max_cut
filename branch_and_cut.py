@@ -475,7 +475,13 @@ def branch_and_cut(file_name):
 # file_list = os.listdir('Inputs')
 # file_list.pop(0)
 
-file_list = ['att48.txt']
+# file_list = ['att48.txt', 'hk48.txt', 'ulysses22.txt', 'gr21.txt']
+file_list = ['d1291.tsp.del']
+
+# , 'd657.tsp.del'
+
+# file_list = ['a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del', 'ch150.tsp.del', 'd198.tsp.del']
+
 
 best_sols = []
 run_times = []
@@ -484,8 +490,8 @@ for filename in file_list:
     start_time = time.time()
 
     best_sol, opt_vars = branch_and_cut(filename)
-    print best_sol, '\n', opt_vars, '\n'
     graph_time = time.time() - start_time
+    print best_sol, '\n', opt_vars, '\n', graph_time
     best_sols.append(best_sol)
     run_times.append(graph_time)
     print '\n'
