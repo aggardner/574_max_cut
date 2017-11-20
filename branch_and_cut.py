@@ -480,16 +480,10 @@ def branch_and_cut(file_name):
 # file_list = os.listdir('Inputs')
 # file_list.pop(0)
 
-<<<<<<< HEAD
 # file_list = ['att48.txt', 'hk48.txt', 'ulysses22.txt', 'gr21.txt']
-file_list = ['d1291.tsp.del']
+# file_list = ['d1291.tsp.del', 'd657.tsp.del']
 
-# , 'd657.tsp.del'
-
-# file_list = ['a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del', 'ch150.tsp.del', 'd198.tsp.del']
-=======
-file_list = ['gr21.txt', 'ulysses22.txt']
->>>>>>> 98fb60ce5bfad0ad3e585c03adfa67a1d809b1c2
+file_list = ['a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del', 'ch150.tsp.del', 'd198.tsp.del']
 
 
 best_sols = []
