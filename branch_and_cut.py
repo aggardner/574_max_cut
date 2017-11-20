@@ -83,7 +83,7 @@ def half_approx_alg(edge_costs):
     return max_cut_lb
 
 
-def add_odd_cuts(model, graph, edge_gurobi_map):
+def add_odd_cuts(model, graph, edge_gurobi_map,model_constrs):
     """
     :param model:
     :param graph:
@@ -93,7 +93,14 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
 
     add_cut_indicator = True
 
-    model_constrs = []
+    # model_constrs = set()
+    # constraints_so_far=model.getConstrs()[::-1]
+    # for constraint in constraints_so_far:
+    #     if 'OddCut' in constraint.constrName:
+    #         model_con=frozenset(str(constraint[0].getVar(i).varName.strip(' ')) for i in range(0, constraint[0].size()))
+    #         model_constrs.add(model_con)
+    #     else:
+    #         break
     while add_cut_indicator:
 
         # Make sure we are sending the right things to the function! - BUILD THIS!!!
@@ -114,10 +121,8 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
 
             if violated_flag and constr_set not in model_constrs:
                 model.addConstr(constraint[0], constraint[1], constraint[2], name='OddCut')
-                model_con = set()
-                for i in range(0, constraint[0].size()):
-                    model_con.add(str(constraint[0].getVar(i).varName.strip(' ')))
-                model_constrs.append(model_con)
+                model_con=frozenset(str(constraint[0].getVar(i).varName.strip(' ')) for i in range(0, constraint[0].size()))
+                model_constrs.add(model_con)
 
                 model.optimize()
                 add_flag = True
@@ -131,7 +136,7 @@ def add_odd_cuts(model, graph, edge_gurobi_map):
         if sum(added_list) == 0:
             add_cut_indicator = False
 
-    return model
+    return model, model_constrs
 
 
 def get_current_weights(m, graph):
@@ -378,7 +383,7 @@ def branch_and_cut(file_name):
     m.optimize()
 
     # adds m to queue
-    queue = [m]
+    queue = [(m, set())]
 
     # 1/2 Approximation Algorithm to find initial lower bound
     cur_best_solution = half_approx_alg(edge_costs)
@@ -389,10 +394,10 @@ def branch_and_cut(file_name):
         iteration += 1
 
         # remove item from queue
-        cur_model = queue.pop(0)
+        cur_model, current_cuts= queue.pop(0)
 
         # add viable cuts
-        cur_model = add_odd_cuts(cur_model, edge_costs, edge_vars)
+        cur_model, total_cuts = add_odd_cuts(cur_model, edge_costs, edge_vars, current_cuts)
 
         cur_model.update()
 
@@ -452,7 +457,7 @@ def branch_and_cut(file_name):
                     opt_var = [(v.varName, v.X) for v in m1.getVars() if v.x > 0.0]
             else:
                 if m1.getAttr("ObjVal") > cur_best_solution:
-                    queue.append(m1)
+                    queue.append((m1, total_cuts))
 
             m2.setParam('OutputFlag', False)
             m2.optimize()
@@ -467,7 +472,7 @@ def branch_and_cut(file_name):
                     opt_var = [(v.varName, v.X) for v in m2.getVars() if abs(v.x) > 0.0]
             else:
                 if m2.getAttr("ObjVal") > cur_best_solution:
-                    queue.append(m2)
+                    queue.append((m2, total_cuts))
 
     return cur_best_solution, opt_var
 
@@ -475,12 +480,16 @@ def branch_and_cut(file_name):
 # file_list = os.listdir('Inputs')
 # file_list.pop(0)
 
+<<<<<<< HEAD
 # file_list = ['att48.txt', 'hk48.txt', 'ulysses22.txt', 'gr21.txt']
 file_list = ['d1291.tsp.del']
 
 # , 'd657.tsp.del'
 
 # file_list = ['a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del', 'ch150.tsp.del', 'd198.tsp.del']
+=======
+file_list = ['gr21.txt', 'ulysses22.txt']
+>>>>>>> 98fb60ce5bfad0ad3e585c03adfa67a1d809b1c2
 
 
 best_sols = []
@@ -496,6 +505,13 @@ for filename in file_list:
     run_times.append(graph_time)
     print '\n'
 
+target=open("output.txt", 'w')
+for i in xrange(len(file_list)):
+    data='File: %s Time: %s Final Solution: %s\n' %(file_list[i], run_times[i], best_sols[i])
+    target.write(data)
+
 print file_list
 print best_sols
 print run_times
+
+target.close()
