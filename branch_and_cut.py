@@ -9,7 +9,7 @@ def read_in_data(file_name):
     :param file_name: some file name (of a graph) - put in local address of the graph below
     :return: num_nodes, var_list, edge_list, edge_costs
 
-    Read in the file, and store the data
+    Reads in a graph instance and traverses through all the lines to create node and edge variables and keeping track of weights.
     """
     f = open('./Inputs/%s'
              % file_name, 'r')
@@ -47,6 +47,8 @@ def is_int(sol_vars):
     """
     :param sol_vars: solution variables (set of gurobi variables)
     :return: Boolean - False if any of the variables are fractional, True otherwise
+
+    #Method to check if a given LP solution is a Integer solution, within tolerance. 
     """
     for var in sol_vars:
         if 0.000000000001 < var.x < .99999999999:
