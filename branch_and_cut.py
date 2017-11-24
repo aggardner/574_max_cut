@@ -505,11 +505,14 @@ def branch_and_cut(file_name):
 # file_list = ['att48.txt', 'hk48.txt', 'ulysses22.txt', 'gr21.txt']
 # file_list = ['d1291.tsp.del', 'd657.tsp.del']
 
+
+#Driver instances
 file_list = ['a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del', 'ch150.tsp.del', 'd198.tsp.del']
 
 
 best_sols = []
 run_times = []
+#Loops througha  given set of files and runs branch and cut algorithm on each instances. The times and solutions are then recorded and then written as an output.txt file
 for filename in file_list:
     print filename
     start_time = time.time()
@@ -521,6 +524,7 @@ for filename in file_list:
     run_times.append(graph_time)
     print '\n'
 
+#Writes out solutions to output.txt
 target=open("output.txt", 'w')
 for i in xrange(len(file_list)):
     data='File: %s Time: %s Final Solution: %s\n' %(file_list[i], run_times[i], best_sols[i])
