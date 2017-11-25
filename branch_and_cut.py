@@ -394,7 +394,7 @@ def branch_and_cut(file_name):
         iteration += 1
 
         # remove item from queue
-        cur_model, current_cuts= queue.pop(0)
+        cur_model, current_cuts = queue.pop(0)
 
         # add viable cuts
         cur_model, total_cuts = add_odd_cuts(cur_model, edge_costs, edge_vars, current_cuts)
@@ -481,7 +481,7 @@ def branch_and_cut(file_name):
 # file_list.pop(0)
 
 # file_list = ['att48.txt', 'hk48.txt', 'ulysses22.txt', 'gr21.txt']
-# file_list = ['d1291.tsp.del', 'd657.tsp.del']
+# file_list = ['d1291.tsp.del', 'd657.tsp.del', 'd493.tsp.del']
 
 file_list = ['a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del', 'ch150.tsp.del', 'd198.tsp.del']
 
@@ -499,9 +499,9 @@ for filename in file_list:
     run_times.append(graph_time)
     print '\n'
 
-target=open("output.txt", 'w')
+target = open("output.txt", 'w')
 for i in xrange(len(file_list)):
-    data='File: %s Time: %s Final Solution: %s\n' %(file_list[i], run_times[i], best_sols[i])
+    data = 'File: %s Time: %s Final Solution: %s\n' %(file_list[i], run_times[i], best_sols[i])
     target.write(data)
 
 print file_list

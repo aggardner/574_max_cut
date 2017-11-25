@@ -1,0 +1,5 @@
+File: a280.tsp.del Time: 310.749264002 Final Solution: 12330.0
+File: bier127.tsp.del Time: 20.6277680397 Final Solution: 375761.0
+File: ch130.tsp.del Time: 21.1079618931 Final Solution: 22567.0
+File: ch150.tsp.del Time: 40.401955843 Final Solution: 22549.0
+File: d198.tsp.del Time: 80.6654610634 Final Solution: 79438.0
