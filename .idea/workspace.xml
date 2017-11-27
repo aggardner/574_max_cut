@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d84aa90e-6c39-4404-bce0-0f8045affeea" name="Default" comment="pure branch and bound with errors commit">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/10smallestGraphsOutput" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MaxCutReport.docx" afterPath="$PROJECT_DIR$/MaxCutReport.docx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Max_Cut_ppt.ppt" afterPath="$PROJECT_DIR$/Max_Cut_ppt.ppt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Table1.png" afterPath="$PROJECT_DIR$/Table1.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Table2.png" afterPath="$PROJECT_DIR$/Table2.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Max_Cut_ppt.pptx" afterPath="$PROJECT_DIR$/Max_Cut_ppt.pptx" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/branch_and_cut.py" afterPath="$PROJECT_DIR$/branch_and_cut.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/d657_max_cut_output" afterPath="$PROJECT_DIR$/d657_max_cut_output" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gurobi.log" afterPath="$PROJECT_DIR$/gurobi.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output.txt" afterPath="$PROJECT_DIR$/output.txt" />
     </list>
     <ignored path="Branch_and_Cut_Solver.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -34,7 +27,7 @@
         <entry file="file://$PROJECT_DIR$/branch_and_cut.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="-2427">
-              <caret line="365" column="35" lean-forward="true" selection-start-line="365" selection-start-column="35" selection-end-line="365" selection-end-column="35" />
+              <caret line="365" column="35" lean-forward="false" selection-start-line="365" selection-start-column="35" selection-end-line="365" selection-end-column="35" />
               <folding>
                 <element signature="e#5108#5773#0" expanded="false" />
                 <element signature="e#5822#6888#0" expanded="false" />
@@ -77,7 +70,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
+  <component name="ProjectFrameBounds">
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="740" />
@@ -531,13 +524,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="740" extended-state="1" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1280" height="740" extended-state="0" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.178125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49722" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27623457" sideWeight="0.50913423" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2739521" sideWeight="0.49086577" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2739521" sideWeight="0.49086577" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49722" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49722" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1026,7 +1018,7 @@
     <entry file="file://$PROJECT_DIR$/branch_and_cut.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2427">
-          <caret line="365" column="35" lean-forward="true" selection-start-line="365" selection-start-column="35" selection-end-line="365" selection-end-column="35" />
+          <caret line="365" column="35" lean-forward="false" selection-start-line="365" selection-start-column="35" selection-end-line="365" selection-end-column="35" />
           <folding>
             <element signature="e#5108#5773#0" expanded="false" />
             <element signature="e#5822#6888#0" expanded="false" />
