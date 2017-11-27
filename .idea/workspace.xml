@@ -2,7 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d84aa90e-6c39-4404-bce0-0f8045affeea" name="Default" comment="pure branch and bound with errors commit">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/10smallestGraphsOutput" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MaxCutReport.docx" afterPath="$PROJECT_DIR$/MaxCutReport.docx" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Max_Cut_ppt.ppt" afterPath="$PROJECT_DIR$/Max_Cut_ppt.ppt" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Table1.png" afterPath="$PROJECT_DIR$/Table1.png" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Table2.png" afterPath="$PROJECT_DIR$/Table2.png" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/branch_and_cut.py" afterPath="$PROJECT_DIR$/branch_and_cut.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/d657_max_cut_output" afterPath="$PROJECT_DIR$/d657_max_cut_output" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gurobi.log" afterPath="$PROJECT_DIR$/gurobi.log" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/output.txt" afterPath="$PROJECT_DIR$/output.txt" />
     </list>
     <ignored path="Branch_and_Cut_Solver.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -24,9 +33,15 @@
       <file leaf-file-name="branch_and_cut.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/branch_and_cut.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="138" column="36" lean-forward="true" selection-start-line="138" selection-start-column="36" selection-end-line="138" selection-end-column="36" />
-              <folding />
+            <state relative-caret-position="-2427">
+              <caret line="365" column="35" lean-forward="true" selection-start-line="365" selection-start-column="35" selection-end-line="365" selection-end-column="35" />
+              <folding>
+                <element signature="e#5108#5773#0" expanded="false" />
+                <element signature="e#5822#6888#0" expanded="false" />
+                <element signature="e#6954#8198#0" expanded="false" />
+                <element signature="e#8238#9977#0" expanded="false" />
+                <element signature="e#10010#10952#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -55,13 +70,14 @@
         <option value="$PROJECT_DIR$/max_cut_output_TSPgraphs" />
         <option value="$PROJECT_DIR$/max_cut_output_easyPlanarGraphs" />
         <option value="$PROJECT_DIR$/max_cut_d493_output" />
-        <option value="$PROJECT_DIR$/d657_max_cut_output" />
         <option value="$PROJECT_DIR$/d1291_output" />
+        <option value="$PROJECT_DIR$/d657_max_cut_output" />
+        <option value="$PROJECT_DIR$/10smallestGraphsOutput" />
         <option value="$PROJECT_DIR$/branch_and_cut.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="1">
     <option name="y" value="23" />
     <option name="width" value="1280" />
     <option name="height" value="740" />
@@ -81,7 +97,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -99,6 +114,7 @@
         </subPane>
       </pane>
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -515,13 +531,13 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1280" height="740" extended-state="0" />
+    <frame x="0" y="23" width="1280" height="740" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.178125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49722" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27623457" sideWeight="0.50913423" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2739521" sideWeight="0.49086577" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2739521" sideWeight="0.49086577" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49722" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Python Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49722" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -599,13 +615,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/Desktop/Alex Folder/Rice University/Senior Year/Fall 2017/CAAM 574 - Combinatorial Optimization/Homework/Homework 8/homework8.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/h8/gurobi.log">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -624,7 +633,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#5108#5773#0" expanded="false" />
+            <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
+            <element signature="e#8238#9977#0" expanded="false" />
+            <element signature="e#10010#10952#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -639,7 +654,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#5108#5773#0" expanded="false" />
+            <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
+            <element signature="e#8238#9977#0" expanded="false" />
+            <element signature="e#10010#10952#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -654,7 +675,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#5108#5773#0" expanded="false" />
+            <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
+            <element signature="e#8238#9977#0" expanded="false" />
+            <element signature="e#10010#10952#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -669,7 +696,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#5108#5773#0" expanded="false" />
+            <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
+            <element signature="e#8238#9977#0" expanded="false" />
+            <element signature="e#10010#10952#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -677,7 +710,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#5108#5773#0" expanded="false" />
+            <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
+            <element signature="e#8238#9977#0" expanded="false" />
+            <element signature="e#10010#10952#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -692,7 +731,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#5108#5773#0" expanded="false" />
+            <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
+            <element signature="e#8238#9977#0" expanded="false" />
+            <element signature="e#10010#10952#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -707,7 +752,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <element signature="e#5108#5773#0" expanded="false" />
+            <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
+            <element signature="e#8238#9977#0" expanded="false" />
+            <element signature="e#10010#10952#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -865,13 +916,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/d657_max_cut_output">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="370">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/d1291_output">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="370">
@@ -946,7 +990,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -954,7 +997,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -962,15 +1004,36 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/d657_max_cut_output">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="223">
+          <caret line="5" column="13" lean-forward="true" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/10smallestGraphsOutput">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="160">
+          <caret line="66" column="0" lean-forward="true" selection-start-line="66" selection-start-column="0" selection-end-line="66" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/branch_and_cut.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="138" column="36" lean-forward="true" selection-start-line="138" selection-start-column="36" selection-end-line="138" selection-end-column="36" />
-          <folding />
+        <state relative-caret-position="-2427">
+          <caret line="365" column="35" lean-forward="true" selection-start-line="365" selection-start-column="35" selection-end-line="365" selection-end-column="35" />
+          <folding>
+            <element signature="e#5108#5773#0" expanded="false" />
+            <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
+            <element signature="e#8238#9977#0" expanded="false" />
+            <element signature="e#10010#10952#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -128,18 +128,16 @@ def add_odd_cuts(model, graph, edge_gurobi_map, model_constrs):
                                       for i in range(0, constraint[0].size()))
                 model_constrs.add(model_con)
 
-                model.optimize()
                 # Add flag means we have added an odd cut. If we have never added an odd cut in our graph, add_flag
                 # would remain false and hence the loop is exited
                 add_flag = True
                 added_list.append(add_flag)
                 # Check to see if we are integer
-                sol_vars = model.getVars()
-                integer_solution, _ = is_int(sol_vars)
-                if integer_solution:
-                    add_cut_indicator = False
 
-        if sum(added_list) == 0:
+        model.optimize()
+        sol_vars = model.getVars()
+        integer_solution, _ = is_int(sol_vars)
+        if integer_solution or sum(added_list) == 0:
             add_cut_indicator = False
 
     return model, model_constrs
@@ -513,12 +511,13 @@ def branch_and_cut(file_name):
 # file_list = os.listdir('Inputs')
 # file_list.pop(0)
 
-# file_list = ['att48.txt', 'hk48.txt', 'ulysses22.txt', 'gr21.txt']
+# file_list = ['att48.txt', 'hk48.txt', 'ulysses22.txt', 'gr21.txt', 'a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del',
+#  'ch150.tsp.del', 'd198.tsp.del', 'd493.tsp.del']
 # file_list = ['d1291.tsp.del', 'd657.tsp.del', 'd493.tsp.del']
 
-
+file_list = ['d1291.tsp.del']
 # Driver instances
-file_list = ['a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del', 'ch150.tsp.del', 'd198.tsp.del']
+# file_list = ['a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del', 'ch150.tsp.del', 'd198.tsp.del']
 
 
 best_sols = []
