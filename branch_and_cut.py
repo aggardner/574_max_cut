@@ -512,7 +512,7 @@ def branch_and_cut(file_name):
 # file_list.pop(0)
 
 file_list = ['att48.txt', 'hk48.txt', 'ulysses22.txt', 'gr21.txt', 'a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del',
-  'ch150.tsp.del', 'd198.tsp.del', 'd493.tsp.del']
+             'ch150.tsp.del', 'd198.tsp.del', 'd493.tsp.del']
 # file_list = ['d1291.tsp.del', 'd657.tsp.del', 'd493.tsp.del']
 
 # file_list = ['d1291.tsp.del']

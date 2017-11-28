@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d84aa90e-6c39-4404-bce0-0f8045affeea" name="Default" comment="pure branch and bound with errors commit">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/MaxCutReport.docx" afterPath="$PROJECT_DIR$/MaxCutReport.docx" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/branch_and_cut.py" afterPath="$PROJECT_DIR$/branch_and_cut.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gurobi.log" afterPath="$PROJECT_DIR$/gurobi.log" />
     </list>
     <ignored path="Branch_and_Cut_Solver.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -27,11 +24,12 @@
       <file leaf-file-name="branch_and_cut.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/branch_and_cut.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="500">
-              <caret line="511" column="18" lean-forward="true" selection-start-line="511" selection-start-column="18" selection-end-line="511" selection-end-column="18" />
+            <state relative-caret-position="182">
+              <caret line="110" column="23" lean-forward="true" selection-start-line="110" selection-start-column="23" selection-end-line="110" selection-end-column="23" />
               <folding>
                 <element signature="e#5108#5773#0" expanded="false" />
                 <element signature="e#5822#6888#0" expanded="false" />
+                <element signature="e#6954#8198#0" expanded="false" />
                 <element signature="e#8238#9977#0" expanded="false" />
                 <element signature="e#10010#10952#0" expanded="false" />
                 <element signature="e#10990#17230#0" expanded="false" />
@@ -633,6 +631,7 @@
           <folding>
             <element signature="e#5108#5773#0" expanded="false" />
             <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
             <element signature="e#8238#9977#0" expanded="false" />
             <element signature="e#10010#10952#0" expanded="false" />
             <element signature="e#10990#17230#0" expanded="false" />
@@ -654,6 +653,7 @@
           <folding>
             <element signature="e#5108#5773#0" expanded="false" />
             <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
             <element signature="e#8238#9977#0" expanded="false" />
             <element signature="e#10010#10952#0" expanded="false" />
             <element signature="e#10990#17230#0" expanded="false" />
@@ -675,6 +675,7 @@
           <folding>
             <element signature="e#5108#5773#0" expanded="false" />
             <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
             <element signature="e#8238#9977#0" expanded="false" />
             <element signature="e#10010#10952#0" expanded="false" />
             <element signature="e#10990#17230#0" expanded="false" />
@@ -696,6 +697,7 @@
           <folding>
             <element signature="e#5108#5773#0" expanded="false" />
             <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
             <element signature="e#8238#9977#0" expanded="false" />
             <element signature="e#10010#10952#0" expanded="false" />
             <element signature="e#10990#17230#0" expanded="false" />
@@ -710,6 +712,7 @@
           <folding>
             <element signature="e#5108#5773#0" expanded="false" />
             <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
             <element signature="e#8238#9977#0" expanded="false" />
             <element signature="e#10010#10952#0" expanded="false" />
             <element signature="e#10990#17230#0" expanded="false" />
@@ -731,6 +734,7 @@
           <folding>
             <element signature="e#5108#5773#0" expanded="false" />
             <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
             <element signature="e#8238#9977#0" expanded="false" />
             <element signature="e#10010#10952#0" expanded="false" />
             <element signature="e#10990#17230#0" expanded="false" />
@@ -752,6 +756,7 @@
           <folding>
             <element signature="e#5108#5773#0" expanded="false" />
             <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
             <element signature="e#8238#9977#0" expanded="false" />
             <element signature="e#10010#10952#0" expanded="false" />
             <element signature="e#10990#17230#0" expanded="false" />
@@ -1028,11 +1033,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/branch_and_cut.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="500">
-          <caret line="511" column="18" lean-forward="true" selection-start-line="511" selection-start-column="18" selection-end-line="511" selection-end-column="18" />
+        <state relative-caret-position="182">
+          <caret line="110" column="23" lean-forward="true" selection-start-line="110" selection-start-column="23" selection-end-line="110" selection-end-column="23" />
           <folding>
             <element signature="e#5108#5773#0" expanded="false" />
             <element signature="e#5822#6888#0" expanded="false" />
+            <element signature="e#6954#8198#0" expanded="false" />
             <element signature="e#8238#9977#0" expanded="false" />
             <element signature="e#10010#10952#0" expanded="false" />
             <element signature="e#10990#17230#0" expanded="false" />
