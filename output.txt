@@ -1,1 +1,1 @@
-File: d657.tsp.del Time: 5949.04127192 Final Solution: 199616.0
+File: d1291.tsp.del Time: 59315.690659 Final Solution: 547939.0
