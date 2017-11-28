@@ -511,11 +511,11 @@ def branch_and_cut(file_name):
 # file_list = os.listdir('Inputs')
 # file_list.pop(0)
 
-# file_list = ['att48.txt', 'hk48.txt', 'ulysses22.txt', 'gr21.txt', 'a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del',
-#  'ch150.tsp.del', 'd198.tsp.del', 'd493.tsp.del']
+file_list = ['att48.txt', 'hk48.txt', 'ulysses22.txt', 'gr21.txt', 'a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del',
+  'ch150.tsp.del', 'd198.tsp.del', 'd493.tsp.del']
 # file_list = ['d1291.tsp.del', 'd657.tsp.del', 'd493.tsp.del']
 
-file_list = ['d1291.tsp.del']
+# file_list = ['d1291.tsp.del']
 # Driver instances
 # file_list = ['a280.tsp.del', 'bier127.tsp.del', 'ch130.tsp.del', 'ch150.tsp.del', 'd198.tsp.del']
 
@@ -537,7 +537,7 @@ for filename in file_list:
     run_times.append(graph_time)
     print '\n'
 
-target = open("output.txt", 'w')
+target = open("output1.txt", 'w')
 
 for j in xrange(len(file_list)):
     data = 'File: %s Time: %s Final Solution: %s\n' % (file_list[j], run_times[j], best_sols[j])
