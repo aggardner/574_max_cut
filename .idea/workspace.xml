@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d84aa90e-6c39-4404-bce0-0f8045affeea" name="Default" comment="pure branch and bound with errors commit">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/branch_and_cut.py" afterPath="$PROJECT_DIR$/branch_and_cut.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Submission Folder/__init__.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/Submission Folder/branch_and_cut_LOCAL.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Branch_and_Cut_Solver.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -20,30 +22,15 @@
     <favorites_list name="Branch_and_Cut_Solver" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="branch_and_cut.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/branch_and_cut.py">
+    <leaf>
+      <file leaf-file-name="branch_and_cut_CLEAR.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Submission Folder/branch_and_cut_CLEAR.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="110" column="23" lean-forward="true" selection-start-line="110" selection-start-column="23" selection-end-line="110" selection-end-column="23" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <element signature="e#5108#5773#0" expanded="false" />
-                <element signature="e#5822#6888#0" expanded="false" />
-                <element signature="e#6954#8198#0" expanded="false" />
-                <element signature="e#8238#9977#0" expanded="false" />
-                <element signature="e#10010#10952#0" expanded="false" />
-                <element signature="e#10990#17230#0" expanded="false" />
+                <element signature="e#0#22#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="d1291_output" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/d1291_output">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="96761" lean-forward="false" selection-start-line="4" selection-start-column="96761" selection-end-line="4" selection-end-column="96761" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -99,6 +86,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -111,12 +100,15 @@
               <item name="574_max_cut" type="462c0819:PsiDirectoryNode" />
               <item name="Inputs" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="574_max_cut" type="b2602c69:ProjectViewProjectNode" />
+              <item name="574_max_cut" type="462c0819:PsiDirectoryNode" />
+              <item name="Submission Folder" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -124,11 +116,13 @@
     <property name="last_opened_file_path" value="$USER_HOME$/Desktop/Alex Folder/Rice University/Junior Year/Fall 2016/CAAM 378 - OR &amp; Optimization/Cutting Stock Problem/cutting_stock.py" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/Inputs" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$USER_HOME$/Desktop/Alex Folder/Rice University/Senior Year/Fall 2017/CAAM 574 - Combinatorial Optimization/Homework/Homework 8" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Submission Folder" />
+      <recent name="$PROJECT_DIR$/Inputs" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -534,9 +528,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1280" height="740" extended-state="0" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.178125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.178125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3287037" sideWeight="0.49722" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.27623457" sideWeight="0.50913423" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2739521" sideWeight="0.49086577" order="2" side_tool="false" content_ui="tabs" />
@@ -617,10 +610,10 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/h8/AYYYY_oursol.sol">
+    <entry file="file://$PROJECT_DIR$/h8/h8.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="6" lean-forward="false" selection-start-line="10" selection-start-column="6" selection-end-line="10" selection-end-column="6" />
+        <state relative-caret-position="990">
+          <caret line="66" column="13" lean-forward="false" selection-start-line="66" selection-start-column="13" selection-end-line="66" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -628,14 +621,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#5108#5773#0" expanded="false" />
-            <element signature="e#5822#6888#0" expanded="false" />
-            <element signature="e#6954#8198#0" expanded="false" />
-            <element signature="e#8238#9977#0" expanded="false" />
-            <element signature="e#10010#10952#0" expanded="false" />
-            <element signature="e#10990#17230#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -650,14 +635,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#5108#5773#0" expanded="false" />
-            <element signature="e#5822#6888#0" expanded="false" />
-            <element signature="e#6954#8198#0" expanded="false" />
-            <element signature="e#8238#9977#0" expanded="false" />
-            <element signature="e#10010#10952#0" expanded="false" />
-            <element signature="e#10990#17230#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -672,21 +649,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#5108#5773#0" expanded="false" />
-            <element signature="e#5822#6888#0" expanded="false" />
-            <element signature="e#6954#8198#0" expanded="false" />
-            <element signature="e#8238#9977#0" expanded="false" />
-            <element signature="e#10010#10952#0" expanded="false" />
-            <element signature="e#10990#17230#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/h8/h8.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="66" column="13" lean-forward="false" selection-start-line="66" selection-start-column="13" selection-end-line="66" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -694,29 +656,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#5108#5773#0" expanded="false" />
-            <element signature="e#5822#6888#0" expanded="false" />
-            <element signature="e#6954#8198#0" expanded="false" />
-            <element signature="e#8238#9977#0" expanded="false" />
-            <element signature="e#10010#10952#0" expanded="false" />
-            <element signature="e#10990#17230#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/branch_and_cut.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#5108#5773#0" expanded="false" />
-            <element signature="e#5822#6888#0" expanded="false" />
-            <element signature="e#6954#8198#0" expanded="false" />
-            <element signature="e#8238#9977#0" expanded="false" />
-            <element signature="e#10010#10952#0" expanded="false" />
-            <element signature="e#10990#17230#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -731,14 +670,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#5108#5773#0" expanded="false" />
-            <element signature="e#5822#6888#0" expanded="false" />
-            <element signature="e#6954#8198#0" expanded="false" />
-            <element signature="e#8238#9977#0" expanded="false" />
-            <element signature="e#10010#10952#0" expanded="false" />
-            <element signature="e#10990#17230#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -753,14 +684,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#5108#5773#0" expanded="false" />
-            <element signature="e#5822#6888#0" expanded="false" />
-            <element signature="e#6954#8198#0" expanded="false" />
-            <element signature="e#8238#9977#0" expanded="false" />
-            <element signature="e#10010#10952#0" expanded="false" />
-            <element signature="e#10990#17230#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -1020,7 +943,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="96761" lean-forward="false" selection-start-line="4" selection-start-column="96761" selection-end-line="4" selection-end-column="96761" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -1031,17 +953,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Submission Folder/branch_and_cut_LOCAL.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="23" column="17" lean-forward="true" selection-start-line="23" selection-start-column="17" selection-end-line="23" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/branch_and_cut.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="110" column="23" lean-forward="true" selection-start-line="110" selection-start-column="23" selection-end-line="110" selection-end-column="23" />
+        <state relative-caret-position="1605">
+          <caret line="110" column="23" lean-forward="false" selection-start-line="110" selection-start-column="23" selection-end-line="110" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Submission Folder/branch_and_cut_CLEAR.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#5108#5773#0" expanded="false" />
-            <element signature="e#5822#6888#0" expanded="false" />
-            <element signature="e#6954#8198#0" expanded="false" />
-            <element signature="e#8238#9977#0" expanded="false" />
-            <element signature="e#10010#10952#0" expanded="false" />
-            <element signature="e#10990#17230#0" expanded="false" />
+            <element signature="e#0#22#0" expanded="true" />
           </folding>
         </state>
       </provider>
